@@ -20,6 +20,19 @@
 #include <boost/python/stl_iterator.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
+#include "english_stem.h"
+#include "french_stem.h"
+#include "german_stem.h"
+#include "finnish_stem.h"
+#include "swedish_stem.h"
+#include "spanish_stem.h"
+#include "dutch_stem.h"
+#include "danish_stem.h"
+#include "italian_stem.h"
+#include "norwegian_stem.h"
+#include "portuguese_stem.h"
+#include "russian_stem.h"
+
 #include <boost/tuple/tuple.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
@@ -34,37 +47,16 @@
 #include <iostream>
 
 #include <texpp/parser.h>
+#include <unicode/stringpiece.h>
+#include <unicode/unistr.h>
+#include <unicode/normalizer2.h>
+#include <unicode/schriter.h>
 
-extern "C" {
-struct stemmer;
-
-extern struct stemmer * create_stemmer(void);
-extern void free_stemmer(struct stemmer * z);
-
-extern int stem(struct stemmer * z, char * b, int k);
-}
+#include <locale.h>
+#include <wchar.h>
 
 using namespace boost::python;
 using namespace texpp;
-
-class Stemmer {
-public:
-    Stemmer() { _stemmer = create_stemmer(); }
-    ~Stemmer() { free_stemmer(_stemmer); }
-
-    string stem(string word) const
-    {
-        /* TODO: remove unnessesary conversion to/from std::string */
-        int n = word.size();
-        char buf[n];
-        std::memcpy(buf, word.data(), n);
-        n = ::stem(_stemmer, buf, n-1);
-        return string(buf, n+1);
-    }
-
-protected:
-    mutable struct stemmer* _stemmer;
-};
 
 class WordsDict {
 public:
@@ -93,15 +85,12 @@ protected:
     size_t _abbrMaxLen;
 };
 
-inline bool _islower(char ch) { return ch >= 'a' && ch <= 'z'; }
-inline bool _isupper(char ch) { return ch >= 'A' && ch <= 'Z'; }
-
-inline bool _isglue(char ch) {
-    return isdigit(ch) || ch == '-' || ch == '/';
+inline bool _isglue(wchar_t ch) {
+    return iswdigit(ch) || ch == L'-' || ch == L'/';
 }
 
-inline bool _isIgnored(char ch) {
-    return ch == ' ' || ch == '~' || ch == '-' || ch == '/';
+inline bool _isIgnored(wchar_t ch) {
+    return ch == L'~' || ch == L'-' || ch == L'/' || iswspace(ch);
 }
 
 inline bool _isIgnoredWord(const string& word) {
@@ -109,26 +98,139 @@ inline bool _isIgnoredWord(const string& word) {
            word == "The" || word == "A" || word == "An";
 }
 
-string normLiteral(string literal,
-        const WordsDict* wordsDict, const Stemmer* stemmer, const dict& whiteList)
+string wStrToStr(std::wstring wstr, bool toLower=false)
 {
-    /* TODO: support arbitrary stemmers and wordDicts */
-    /* TODO: unicode and locales */
-    string nliteral;
-    size_t n = 0, s = literal.size();
+    string result("");
+    char buf[MB_CUR_MAX + 1];
+    std::mbstate_t state = std::mbstate_t();
+    setlocale(LC_ALL, "en_US.UTF-8");
+    for (size_t i=0; i < wstr.length(); i++) {
+        size_t len = wcrtomb(buf, toLower? towlower(wstr[i]) : wstr[i], &state);
+        if (len <= 0 || len > MB_CUR_MAX)
+            break;
+        buf[len] = 0;
+        result += buf;
+    }
+    return result;
+}
+
+std::wstring strToWStr(string input)
+{
+    setlocale(LC_ALL, "en_US.UTF-8");
+    const char* position = input.c_str();
+    std::mbstate_t state = std::mbstate_t();
+    wchar_t wChar;
+    std::wstring result;
+    while (*position) {
+        size_t len = mbrtowc(&wChar, position, MB_CUR_MAX, &state);
+        if (len <= 0 || len > MB_CUR_MAX)
+            break;
+        position += len;
+        result += wChar;
+    }
+    return result;
+}
+
+std::wstring stem_wstring(std::wstring input)
+{
+    size_t length = input.length();
+    std::wstring input_backup(input);
+    stemming::english_stem<> StemEnglish;
+    StemEnglish(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::french_stem<> StemFrench;
+    StemFrench(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::german_stem<> StemGerman;
+    StemGerman(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::spanish_stem<> StemSpanish;
+    StemSpanish(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::italian_stem<> StemItalian;
+    StemItalian(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::portuguese_stem<> StemPortuguese;
+    StemPortuguese(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::dutch_stem<> StemDutch;
+    StemDutch(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::danish_stem<> StemDanish;
+    StemDanish(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::finnish_stem<> StemFinnish;
+    StemFinnish(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::norwegian_stem<> StemNorwegian;
+    StemNorwegian(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::swedish_stem<> StemSwedish;
+    StemSwedish(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    input = input_backup;
+    stemming::russian_stem<> StemRussian;
+    StemRussian(input);
+    if ((input.length() != length) && (input.length() != 0))
+        return input;
+    return input_backup;
+}
+
+string normLiteral(string literal,
+        const WordsDict* wordsDict, const dict& whiteList)
+{
+    stemming::english_stem<> StemEnglish;
+    std::wstring nWLiteral;
     size_t wordStart = string::npos;
     size_t lastDot = string::npos;
-    string lowercaseLiteral(literal);
-    for(size_t i = 0; i < lowercaseLiteral.size(); ++i)
-        if(_isupper(lowercaseLiteral[i])) lowercaseLiteral[i] -= 'A'-'a';
-    if(whiteList.has_key(lowercaseLiteral)) return literal;
+    string lowercaseLiteral(""), unicodeNormLiteral;;
+    setlocale(LC_ALL, "en_US.UTF-8");
+    /* Decompose unicode chars to the basic ones */
+    UErrorCode ecode = U_ZERO_ERROR;
+    const Normalizer2* normalizer = icu::Normalizer2::getInstance(NULL, "nfkc", UNORM2_DECOMPOSE, ecode);
+    UnicodeString final;
+    UnicodeString ULiteral = icu::UnicodeString::fromUTF8(StringPiece(literal));
+    UnicodeString normULiteral = normalizer->normalize(ULiteral, ecode);
+    StringCharacterIterator iter(normULiteral);
+    while(iter.hasNext())
+    {
+        if (u_isbase(iter.current()) || u_isblank(iter.current()) || u_ispunct(iter.current()))
+            final += iter.current();
+        iter.next();
+    }
+    final.toUTF8String(unicodeNormLiteral);
+    std::wstring wLiteral = strToWStr(unicodeNormLiteral);
+    size_t s = wLiteral.length();
+    /* convert to lowercase and check the whitelist */
+    if(whiteList.has_key(wStrToStr(wLiteral, true))) return literal;
 
     /* TODO: handle 's */
-    for(n=0; ; ++n) {
-        char ch = n < s ? literal[n] : 0;
+    for(size_t n=0; ; ++n) {
+        wchar_t ch = n < s ? wLiteral[n] : 0;
 
         if(wordStart < n) { // inside a word
-            if(_islower(ch) || _isupper(ch) || std::isdigit(ch)) {
+            if(iswalnum(ch)) {
                 // add to current word
             } else if(ch == '.') {
                 // add to current word but remember the dot position
@@ -148,96 +250,84 @@ string normLiteral(string literal,
                 bool isAbbr = false;
                 size_t lastUpper = string::npos;
                 size_t firstLower = string::npos;
-                size_t wordSize = n + 1 - wordStart;
-                std::string word(literal, wordStart, wordSize);
-                std::string word1(literal, wordStart, wordSize);
+                std::wstring word(wLiteral.begin() + wordStart, wLiteral.begin() + n + 1);
+                std::wstring word1(wLiteral.begin() + wordStart, wLiteral.begin() + n + 1);
 
                 // reset the word
                 size_t pLastDot = lastDot;
                 wordStart = lastDot = string::npos;
 
-                for(size_t k = 0; k < wordSize; ++k) {
-                    if(_isupper(word1[k])) {
-                        word1[k] += ('a' - 'A');
+                for(size_t k = 0; k < word.length(); ++k) {
+                    if(iswupper(word1[k])) {
+                        word1[k] = towlower(word1[k]);
                         lastUpper = k;
                         if(k != 0) isAbbr = true;
-                    } else if(_islower(word1[k])) {
+                    } else if(iswlower(word1[k])) {
                         if(firstLower > k) firstLower = k;
                     } else { // digit or dot
                         isAbbr = true;
                     }
                 }
 
-                if(n+1 < s && _isIgnoredWord(word)) {
+                if(n+1 < s && _isIgnoredWord(wStrToStr(word))) {
                     // Skip articles, but not at the end
                     continue;
                 }
 
                 // check for abbr in dictionary
-                if(!isAbbr && wordSize <= wordsDict->abbrMaxLen()) {
-                    isAbbr = !wordsDict->contains(word);
+                if(!isAbbr && word.length() <= wordsDict->abbrMaxLen()) {
+                    isAbbr = !wordsDict->contains(wStrToStr(word));
                     if(isAbbr && lastUpper == 0)
-                        isAbbr = !wordsDict->contains(word1);
+                        isAbbr = !wordsDict->contains(wStrToStr(word1));
                 }
                 
                 // process the word
                 if(isAbbr) {
                     if(pLastDot > n) {
                         // Stem plural forms for uppercase abbrevations
-                        if(wordSize > 2 && firstLower == wordSize-2 &&
-                                word[wordSize-2] == 'e' &&
-                                word[wordSize-1] == 's') {
-                            --wordSize; --wordSize;
-                            word.resize(wordSize);
-                        } else if(wordSize > 1 && firstLower == wordSize-1 &&
-                                word[wordSize-1] == 's') {
-                            word.resize(--wordSize);
+                        if(word.length() > 2 && firstLower == word.length()-2 &&
+                                word[word.length()-2] == L'e' &&
+                                word[word.length()-1] == L's') {
+                            word.resize(word.length() - 2);
+                        } else if(word.length() > 1 && firstLower == word.length()-1 &&
+                                word[word.length()-1] == L's') {
+                            word.resize(word.length() - 1);
                         }
-                        size_t nliteralSize = nliteral.size();
-                        nliteral.resize(nliteralSize + 2*wordSize);
-                        for(size_t k=0; k<wordSize; ++k) {
-                            nliteral[nliteralSize + (k<<1)] =
-                                _islower(word[k]) ?
-                                    word[k] - ('a' - 'A') : word[k];
-                            nliteral[nliteralSize + (k<<1) + 1] = '.';
+                        for(size_t k=0; k<word.length(); ++k) {
+                            nWLiteral += iswlower(word[k]) ? towupper(word[k]) : word[k];
+                            nWLiteral += (L'.');
                         }
                     } else {
-                        size_t nliteralSize = nliteral.size();
-                        nliteral.resize(nliteralSize + wordSize);
-                        for(size_t k=0; k<wordSize; ++k) {
-                            nliteral[nliteralSize + k] =
-                                _islower(word[k]) ?
-                                    word[k] - ('a' - 'A') : word[k];
+                        for(size_t k=0; k<word.length(); ++k) {
+                            nWLiteral += iswlower(word[k]) ? towupper(word[k]) : word[k];
                         }
                     }
                 } else {
-                    nliteral += stemmer->stem(word1);
+                    nWLiteral += stem_wstring(word1);
                 }
             }
         } else { // not inside a word
             if(_isIgnored(ch)) {
                 continue; // ignore these chars
-            } else if(_islower(ch) || _isupper(ch) || std::isdigit(ch)) {
+            } else if(iswalnum(ch)) {
                 wordStart = n;
             } else if(ch == '\'' && n+1 < s && (literal[n+1] == 's') &&
-                    n != 0 && (_islower(literal[n-1]) ||
-                               _isupper(literal[n-1]))) {
+                    n != 0 && (iswalpha(literal[n-1]))) {
                 if(n+2==s) break;
-                char ch2 = literal[n+2];
-                if(_islower(ch2) || _isupper(ch2) || std::isdigit(ch2)
-                                                    || ch2 == '.')
-                    nliteral += literal[n];
+                wchar_t ch2 = wLiteral[n+2];
+                if(iswalnum(ch2) || ch2 == '.')
+                    nWLiteral += wLiteral[n];
                 else
                     ++n;
             } else if(n >= s) {
                 break;
             } else {
-                nliteral += literal[n]; // use character as-is
+                nWLiteral += wLiteral[n]; // use character as-is
             }
         }
     }
 
-    return nliteral;
+    return wStrToStr(nWLiteral);
 }
 
 string absolutePath(const string& str, const string& workdir)
@@ -287,11 +377,12 @@ struct TextTag
     size_t start;
     size_t end;
     string value;
+    std::wstring wcvalue;
 
     // XXX: boost::python does not support pickling of enums
     explicit TextTag(int t = TT_OTHER, size_t s = 0, size_t e = 0,
                             const string& val = string())
-        : type(Type(t)), start(s), end(e), value(val) {}
+        : type(Type(t)), start(s), end(e), value(val), wcvalue(strToWStr(val)) {}
 
     bool operator==(const TextTag& o) {
         return o.type == type && o.start == start &&
@@ -443,7 +534,7 @@ string getDocumentEncoding(const Node::ptr node)
 
 TextTagList findLiterals(const TextTagList& tags,
         const dict& literals, const dict& notLiterals,
-        const WordsDict* wordsDict, const Stemmer* stemmer, const dict& whiteList,
+        const WordsDict* wordsDict, const dict& whiteList,
         size_t maxChars = 0)
 {
     TextTagList result;
@@ -463,7 +554,7 @@ TextTagList findLiterals(const TextTagList& tags,
     for(size_t n = 0; n < count; ++n) {
         if(tags[n].type == TextTag::TT_CHARACTER) {
             // Do not start from ignored character
-            if(_isIgnored(tags[n].value[0])) continue;
+            if(_isIgnored(tags[n].wcvalue[0])) continue;
         } else if(tags[n].type != TextTag::TT_WORD) {
             // Ignore unknown tags
             continue;
@@ -473,7 +564,7 @@ TextTagList findLiterals(const TextTagList& tags,
         // then it should be a space
         if(n && tags[n-1].end == tags[n].start &&
                 tags[n-1].type == TextTag::TT_CHARACTER &&
-                _isglue(tags[n-1].value[0])) {
+                _isglue(tags[n-1].wcvalue[0])) {
             continue;
         }
 
@@ -498,7 +589,7 @@ TextTagList findLiterals(const TextTagList& tags,
             text += tagk.value;
             if(tagk.type == TextTag::TT_CHARACTER) {
                 // Skip ignored characters
-                if(_isIgnored(tagk.value[0])) continue;
+                if(_isIgnored(tagk.wcvalue[0])) continue;
             } else if(tagk.type != TextTag::TT_WORD) {
                 // Stop on unknown tags
                 break;
@@ -508,12 +599,12 @@ TextTagList findLiterals(const TextTagList& tags,
             // then it should be a space
             if(k+1 < count && tags[k+1].start == tags[k].end &&
                     tags[k+1].type == TextTag::TT_CHARACTER &&
-                    _isglue(tags[k+1].value[0])) {
+                    _isglue(tags[k+1].wcvalue[0])) {
                 continue;
             }
 
             // Norm literal
-            string literal = normLiteral(text, wordsDict, stemmer, whiteList);
+            string literal = normLiteral(text, wordsDict, whiteList);
             if(literal.size() > maxChars) {
                 continue; // XXX: can normLiteral size gets smaller ?
             }
@@ -524,7 +615,7 @@ TextTagList findLiterals(const TextTagList& tags,
                 if((!notLiterals.has_key(text)) &&
                         (k+1>=count ||
                          tags[k+1].type != TextTag::TT_CHARACTER ||
-                         tags[k+1].value[0] != '.' ||
+                         tags[k+1].wcvalue[0] != L'.' ||
                          !notLiterals.has_key(text+'.'))) {
                     foundLiterals.push_back(
                             boost::make_tuple(literal, tagk.end, k));
@@ -594,10 +685,6 @@ BOOST_PYTHON_MODULE(_chrefliterals)
         .def("__repr__", &textTagListRepr)
         .def(vector_indexing_suite<TextTagList>())
         .def_pickle(TextTagListPickeSuite())
-    ;
-
-    class_<Stemmer>("Stemmer", init<>())
-        .def("stem", &Stemmer::stem)
     ;
 
     class_<WordsDict>("WordsDict", init<string, size_t>())

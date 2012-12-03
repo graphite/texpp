@@ -5,7 +5,6 @@ install(FILES latexstubs.py DESTINATION bin)
 install(PROGRAMS hrefkeywords.py hrefliterals.py hreftest.py texpp.py DESTINATION bin)
 
 set(_chrefliterals_SOURCES
-    porter.c
     _chrefliterals.cc
 )
 
