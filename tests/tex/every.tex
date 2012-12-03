@@ -1,0 +1,18 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\catcode`#=6
+
+
+\global\everyjob = \expandafter
+        {\the \everyjob
+      \message {text}
+        }
+
+\showthe\everyjob
+
+\end

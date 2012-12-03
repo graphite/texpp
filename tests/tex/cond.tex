@@ -1,0 +1,284 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\catcode`$=3
+\catcode`#=6
+
+% Font required for math mode
+\font\tenrm=cmr10 % roman text
+\font\preloaded=cmr9
+\font\preloaded=cmr8
+\font\sevenrm=cmr7
+\font\preloaded=cmr6
+\font\fiverm=cmr5
+
+\font\teni=cmmi10 % math italic
+\font\preloaded=cmmi9
+\font\preloaded=cmmi8
+\font\seveni=cmmi7
+\font\preloaded=cmmi6
+\font\fivei=cmmi5
+
+\font\tensy=cmsy10 % math symbols
+\font\sevensy=cmsy7
+\font\fivesy=cmsy5
+\font\tenex=cmex10 % math extension
+\font\tenbf=cmbx10 % boldface extended
+\font\sevenbf=cmbx7
+\font\fivebf=cmbx5
+\font\tentt=cmtt10 % typewriter
+\font\tensl=cmsl10 % slanted roman
+\font\tenit=cmti10 % text italic
+
+\textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm
+\textfont1=\teni \scriptfont1=\seveni \scriptscriptfont1=\fivei
+\textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy
+\textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+
+%ifture and iffalse
+\iftrue\show\x\else\show\y\fi
+\iffalse\show\x\else\show\y\fi
+
+\iftrue
+    \show\x
+    \show\a
+    \iftrue
+        \show\b
+    \fi
+\else
+    \show\y
+    \iftrue
+        \show\c
+    \fi
+\fi
+
+\iffalse\else\else\fi
+\iftrue\else\else\fi
+
+%ifnum
+\count33=3
+\ifnum1>2\show\x\else\show\y\fi
+\ifnum1=2\show\x\else\show\y\fi
+\ifnum1<2\show\x\else\show\y\fi
+
+\ifnum\count33>3\show\x\else\show\y\fi
+\ifnum3>\count33\show\x\else\show\y\fi
+
+\ifnum1a2\show\x\else\show\y\fi
+\ifnum1\relax2\show\x\else\show\y\fi
+
+%ifdim
+\dimen33=3pt
+\ifdim1pt>2pt\show\x\else\show\y\fi
+\ifdim1pt=2pt\show\x\else\show\y\fi
+\ifdim1pt<2pt\show\x\else\show\y\fi
+
+\ifdim\dimen33>3pt\show\x\else\show\y\fi
+\ifdim3pt>\dimen33\show\x\else\show\y\fi
+
+\ifdim1a2\show\x\else\show\y\fi
+\ifdim1\relax2\show\x\else\show\y\fi
+
+%ifodd
+\ifodd7\show\x\else\show\y\fi
+\ifodd8\show\x\else\show\y\fi
+
+%ifvmode
+\par\ifvmode\show\x\fi
+aaaa\ifvmode\show\x\fi
+\vbox{\ifvmode\show\x\fi}
+\hbox{\ifvmode\show\x\fi}
+$\ifvmode\show\x\fi$
+$$\ifvmode\show\x\fi$$
+
+%ifhmode
+\par\ifhmode\show\x\fi
+aaaa\ifhmode\show\x\fi
+\vbox{\ifhmode\show\x\fi}
+\hbox{\ifhmode\show\x\fi}
+$\ifhmode\show\x\fi$
+$$\ifhmode\show\x\fi$$
+
+%ifmmode
+\par\ifmmode\show\x\fi
+aaaa\ifmmode\show\x\fi
+\vbox{\ifmmode\show\x\fi}
+\hbox{\ifmmode\show\x\fi}
+$\ifmmode\show\x\fi$
+$$\ifmmode\show\x\fi$$
+
+%ifinner
+\par\ifinner\show\x\fi
+aaaa\ifinner\show\x\fi
+\vbox{\ifinner\show\x\fi}
+\hbox{\ifinner\show\x\fi}
+$\ifinner\show\x\fi$
+$$\ifinner\show\x\fi$$
+
+%if
+\if11\show\x\fi
+\if12\show\x\fi
+\if{{\show\x\fi
+\if{}\show\x\fi
+
+{
+\def\a{*}
+\let\b=*
+\def\c{/}
+\if\a\b\show\x\fi
+\if\a\c\show\x\fi
+\if\noexpand\a\noexpand\c\show\x\fi
+\if\a\par\show\x\fi
+\if\par\let\show\x\fi
+}
+
+%ifcat
+\ifcat11\show\x\fi
+\ifcat12\show\x\fi
+\ifcat{{\show\x\fi
+\ifcat{}\show\x\fi
+
+{
+\def\a{*}
+\let\b=*
+\def\c{/}
+\ifcat\a\b\show\x\fi
+\ifcat\a\c\show\x\fi
+\ifcat\noexpand\a\noexpand\c\show\x\fi
+\ifcat\a\par\show\x\fi
+\ifcat\par\let\show\x\fi
+
+\catcode`[=13
+\catcode`]=13
+\def[{*}
+\ifcat\noexpand[\noexpand]\show\x\fi
+\ifcat[*\show\x\fi
+\ifcat\noexpand[*\show\x\fi
+}
+
+%ifx
+\ifx\relax\count\show\x\fi
+\ifx\relax\relax\show\x\fi
+\ifx\relax\z\show\x\fi
+
+{
+
+\let\s=*
+\ifx\s*\show\x\fi
+
+\countdef\a1
+\countdef\b1
+\countdef\c2
+\ifx\a\b\show\x\fi
+\ifx\a\c\show\x\fi
+
+\def\a{\c}
+\def\b{\d}
+\def\c{\e}
+\def\d{\e}
+\def\e{A}
+\outer\def\f{\e}
+
+\ifx\a\b\show\x\fi
+\ifx\c\d\show\x\fi
+\ifx\d\e\show\x\fi
+\ifx\c\f\show\x\fi
+
+\def\a{}
+\def\b{%
+}
+\ifx\a\b\show\x\fi
+
+}
+
+%ifvoid
+\ifvoid0\show\x\fi
+{
+\setbox0=\hbox{a}
+\ifvoid0\show\x\fi
+\setbox0=\vbox{a}
+\ifvoid0\show\x\fi
+\setbox0=\vtop{a}
+\ifvoid0\show\x\fi
+}
+
+%ifhbox
+\ifhbox0\show\x\fi
+{
+\setbox0=\hbox{a}
+\ifhbox0\show\x\fi
+\setbox0=\vbox{a}
+\ifhbox0\show\x\fi
+\setbox0=\vtop{a}
+\ifhbox0\show\x\fi
+}
+
+%ifvbox
+\ifvbox0\show\x\fi
+{
+\setbox0=\hbox{a}
+\ifvbox0\show\x\fi
+\setbox0=\vbox{a}
+\ifvbox0\show\x\fi
+\setbox0=\vtop{a}
+\ifvbox0\show\x\fi
+}
+
+%ifcase
+\ifcase0\show\x\or\show\y\or\show\z\else\show\zz\fi
+\ifcase1\show\x\or\show\y\or\show\z\else\show\zz\fi
+\ifcase2\show\x\or\show\y\or\show\z\else\show\zz\fi
+\ifcase10\show\x\or\show\y\or\show\z\else\show\zz\fi
+\ifcase-1\show\x\or\show\y\or\show\z\else\show\zz\fi
+
+\ifcase0\show\x\or\show\y\or\show\z\else\show\zz\or\else\fi
+\ifcase1\show\x\or\show\y\or\show\z\else\show\zz\or\else\fi
+\ifcase2\show\x\or\show\y\or\show\z\else\show\zz\or\else\fi
+\ifcase10\show\x\or\show\y\or\show\z\else\show\zz\or\else\fi
+\ifcase-1\show\x\or\show\y\or\show\z\else\show\zz\or\else\fi
+
+%misc
+{
+\def\a{}
+\def\b{**}
+\def\c{True}
+\if\a\b\fi
+\ifcat\a\b\fi
+\if\c\fi
+\ifcat\c\fi
+\ifx\a\b\fi
+\ifx\ifx\ifx
+
+\if\ifx\a\b\c\else\if\a\b\c\fi\fi\fi
+}
+
+\if\else\else\show\x\fi
+\if1\else\show\x\fi
+\if\relax\else\show\x\fi
+\ifx1\else\show\x\fi
+\if1\fi\fi\fi\fi
+\if\fi\fi\fi\fi
+\if\if\fi\fi\fi\fi\fi
+\if\or\or\fi\fi
+
+\fi\fi\fi\fi
+
+%errors
+\fi
+\else
+\fi
+\or
+
+\iftrue\show\x\else\show\y\else\show\z\fi
+\iftrue\else
+    \iftrue
+    \fi
+    \else
+    \fi
+\fi
+
+\end

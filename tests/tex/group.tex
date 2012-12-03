@@ -1,0 +1,38 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+
+\count1=10
+\showthe\count1
+
+{
+    \count1=20
+    \showthe\count1
+}
+
+\showthe\count1
+
+%begingroup
+\count1=10
+\showthe\count1
+
+\begingroup
+    \count1=20
+    \showthe\count1
+\endgroup
+
+\showthe\count1
+
+%errors
+}
+\endgroup
+
+{\endgroup}
+
+\begingroup}\endgroup
+
+\end

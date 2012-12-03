@@ -1,0 +1,26 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\show\abc@def
+\catcode`@=11
+\show\abc@def
+
+\catcode`/=0
+/show/relax
+
+%errors
+\catcode0=10
+\catcode555=11
+\showthe\catcode0
+
+\catcode0 = 10
+\catcode555 = 11
+\showthe\catcode 0
+
+\catcode0=10
+\catcode0=555
+\showthe\catcode0
+
+\end

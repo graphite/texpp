@@ -1,0 +1,97 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+
+{
+
+\hbox{ abc def }
+\hbox  \relax  \relax { abc def }
+\hbox to 2pt \relax { abd def }
+\hbox spread 2pt \relax { abd def }
+
+\vbox{ abc def }
+\vbox  \relax  \relax { abc def }
+\vbox to 2pt \relax { abd def }
+\vbox spread 2pt \relax { abd def }
+
+\vtop{ abc def }
+\vtop  \relax  \relax { abc def }
+\vtop to 2pt \relax { abd def }
+\vtop spread 2pt \relax { abd def }
+
+\box0
+\box1
+\box-1
+\box277
+
+\copy0
+\copy-1
+
+\vsplit2to4pt
+\vsplit-1to3pt
+\vsplit2 4pt
+\vsplit to 4pt
+
+\setbox0=\hbox to 10pt{abc}
+\setbox1=\hbox spread 11pt{abc}
+\setbox2=\vbox to 12pt{abc}
+\setbox3=\vbox spread 13pt{abc}
+\setbox4=\vtop to 14pt{abc}
+\setbox5=\vtop spread 15pt{abc}
+{
+    \setbox0=\hbox{a}
+    \setbox1=\hbox{a}
+    \setbox2=\hbox{a}
+    \setbox3=\hbox{a}
+    \setbox4=\hbox{a}
+    \setbox5=\hbox{a}
+}
+
+\lastbox
+
+\hbox abc }
+\vbox abc }
+\vtop abc }
+
+\setbox2=\hbox{ abc def }
+\setbox2=\hbox  \relax  \relax { abc def }
+\setbox2=\hbox to 2pt \relax { abd def }
+\setbox2=\hbox spread 2pt \relax { abd def }
+
+\setbox2=
+\setbox2=\vbox{ abc def }
+\setbox2=\vbox  \relax  \relax { abc def }
+\setbox2=\vbox to 2pt \relax { abd def }
+\setbox2=\vbox spread 2pt \relax { abd def }
+\setbox2=
+\setbox2=\vtop{ abc def }
+\setbox2=\vtop  \relax  \relax { abc def }
+\setbox2=\vtop to 2pt \relax { abd def }
+\setbox2=\vtop spread 2pt \relax { abd def }
+\setbox2=
+\setbox2=\box0
+\setbox2=\box1
+\setbox2=\box-1
+\setbox2=\box277
+\setbox2=
+\setbox2=\copy0
+\setbox2=\copy-1
+\setbox2=
+\setbox2=\vsplit2to4pt
+\setbox2=\vsplit-1to3pt
+\setbox2=\vsplit2 4pt
+\setbox2=\vsplit to 4pt
+\setbox2=
+a\setbox2=\lastbox
+\setbox2=
+\setbox2=\hbox abc }
+\setbox2=\vbox abc }
+\setbox2=\vtop abc }
+
+}
+
+\end

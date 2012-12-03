@@ -1,0 +1,82 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`$=3
+\font\x=cmr10
+
+\font\tenrm=cmr10 % roman text
+\font\preloaded=cmr9
+\font\preloaded=cmr8
+\font\sevenrm=cmr7
+\font\preloaded=cmr6
+\font\fiverm=cmr5
+
+\font\teni=cmmi10 % math italic
+\font\preloaded=cmmi9
+\font\preloaded=cmmi8
+\font\seveni=cmmi7
+\font\preloaded=cmmi6
+\font\fivei=cmmi5
+
+\font\tensy=cmsy10 % math symbols
+\font\sevensy=cmsy7
+\font\fivesy=cmsy5
+\font\tenex=cmex10 % math extension
+\font\tenbf=cmbx10 % boldface extended
+\font\sevenbf=cmbx7
+\font\fivebf=cmbx5
+\font\tentt=cmtt10 % typewriter
+\font\tensl=cmsl10 % slanted roman
+\font\tenit=cmti10 % text italic
+
+\textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm
+\textfont1=\teni \scriptfont1=\seveni \scriptscriptfont1=\fivei
+\textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy
+\textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+
+$x$
+
+$$y$$
+
+$x$$y$
+
+$$x$$$$y$$
+
+$$x$y
+
+$$x$y$$z$
+
+\catcode`@=3
+
+$$x@@
+
+@$x@$
+
+@$x$@
+
+@x$
+
+$z@
+
+\let\x=$
+\x x$
+
+$x\x
+
+$\x x $$
+
+$$ x \x$
+
+$$ x $\x
+
+$$ x \x
+
+% errors with grouping
+
+$}$
+
+$$}$$
+
+\end

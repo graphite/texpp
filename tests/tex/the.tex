@@ -1,0 +1,40 @@
+%\tracingonline=2
+%\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2 % TODO
+
+\catcode`{=1
+\catcode`}=2
+\newlinechar=`@
+\message{@}
+
+% integer parameter
+\message{~ \the\endlinechar @}
+\message{~ \the\escapechar @}
+\message{~ \the\tolerance @}
+\message{~ \the\mag @}
+\message{~ \the\maxdeadcycles @}
+
+% integer register
+\message{~ \the\count0 @}
+\message{~ \the\count10 @}
+
+% catcode
+\message{~ \the\catcode`a @}
+\message{~ \the\catcode`\\ @}
+
+% errors
+% XXX
+%\showthe\xx\yy\count0
+
+% toks
+\toks0={\number10}
+\the\toks0
+
+\message{~ \the\toks0 @}
+\immediate\write16{~ \the\toks0 @}
+\edef\x{\the\toks0}
+\show\x
+
+\end
+

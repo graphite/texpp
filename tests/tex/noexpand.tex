@@ -1,0 +1,24 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+
+\noexpand\number2
+\noexpand\noexpand\number2
+\noexpand\count1=2
+\showthe\count1
+
+\newlinechar=`@
+\message{@}
+\message{~ \noexpand\number--25@}
+\message{~ \noexpand\noexpand\number--25@}
+
+\count\noexpand\number=10
+\count1=\noexpand\romannumeral33 % \romannumeral is executed here !
+\year=12\noexpand\romannumeral34 % and here
+
+\end
+

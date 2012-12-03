@@ -1,0 +1,133 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\count10=20
+\advance\count10 30
+\showthe\count10
+
+% spaces and by
+\count10=20
+\advance  \count  10  20
+\showthe\count10
+
+\advance  \count  10  by 20
+\showthe\count10
+
+\advance  \count  10by20
+\showthe\count10
+
+% dimen
+\dimen0=10.5pt
+\advance\dimen0by0.4pt
+\showthe\dimen0
+
+\advance\dimen0by0.1pt
+\showthe\dimen0
+
+\advance\dimen0by"3FFFFFFFsp
+\showthe\dimen0
+
+\count1="7FFFFFFF
+\advance\count1by1
+\dimen1=1\count1
+\showthe\dimen1
+
+% skip
+\skip0=10.5pt
+\advance\skip0by0.4pt
+\showthe\skip0
+
+\advance\skip0by0.1pt
+\showthe\skip0
+
+\skip0=10.5pt plus 3pt minus 4pt
+\advance\skip0by0.4pt
+\showthe\skip0
+\advance\skip0by0.4pt plus 5pt
+\showthe\skip0
+\advance\skip0by0.4pt plus 7pt minus 3pt
+\showthe\skip0
+\advance\skip0by0.4pt plus 3fill minus 3fil
+\showthe\skip0
+\advance\skip0by0.4pt plus 5fil minus 5filll
+\showthe\skip0
+
+\skip0=10.5pt plus 3fil minus 4fil
+\advance\skip0by0.4pt
+\showthe\skip0
+\advance\skip0by0.4pt plus 5pt
+\showthe\skip0
+\advance\skip0by0.4pt plus 7pt minus 3pt
+\showthe\skip0
+\advance\skip0by0.4pt plus 3fill minus 3fil
+\showthe\skip0
+\advance\skip0by0.4pt plus 5fil minus 5filll
+\showthe\skip0
+
+\advance\skip0by"3FFFFFFFsp
+\showthe\skip0
+
+\count1="7FFFFFFF
+\advance\count1by1
+\skip1=1\count1
+\showthe\skip1
+
+% muskip
+\muskip0=10.5mu
+\advance\muskip0by0.4mu
+\showthe\muskip0
+
+\advance\muskip0by0.1mu
+\showthe\muskip0
+
+\muskip0=10.5mu plus 3mu minus 4mu
+\advance\muskip0by0.4mu
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 5mu
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 7mu minus 3mu
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 3fill minus 3fil
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 5fil minus 5filll
+\showthe\muskip0
+
+\muskip0=10.5mu plus 3fil minus 4fil
+\advance\muskip0by0.4mu
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 5mu
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 7mu minus 3mu
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 3fill minus 3fil
+\showthe\muskip0
+\advance\muskip0by0.4mu plus 5fil minus 5filll
+\showthe\muskip0
+
+\advance\muskip0by"3FFFFFFFsp
+\showthe\muskip0
+
+\count1="7FFFFFFF
+\advance\count1by1
+\muskip1=1\count1
+\showthe\muskip1
+
+
+% overflow (TeX do not checks for it!)
+\count0="7FFFFFFE
+\showthe\count0
+\advance\count0 2
+\showthe\count0
+\advance\count0 2
+\showthe\count0
+
+% errors
+\advance\par\relax
+
+\count0=10
+\advance\count0by\relax
+\showthe\count0
+
+\end

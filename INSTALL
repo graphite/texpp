@@ -1,0 +1,14 @@
+For compiling and installation you need:
+- boost libraries (http://www.boost.org/)
+- cmake program (http://cmake.org/)
+- python libraries (optional, http://python.org/)
+
+Basic installation:
+$ mkdir build
+$ cd build
+$ cmake -DCMAKE_BUILD_TYPE=Release ..
+$ make
+$ make test
+$ make install
+
+LD_LIBRARY_PATH must contain path with libtexpp.so

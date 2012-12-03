@@ -1,0 +1,44 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\newlinechar=`@
+
+\toks0={aa \x @ \y b
+
+b \bb \:cc~dd\zz
+}
+\showthe\toks0
+\showthe\toks1
+%\message{~ \the\toks0 @} %TODO: proper expansion in \message
+%\message{~ \the\toks1 @}
+\toks1=\toks0
+\showthe\toks1
+%\message{~ \the\toks1 @}
+
+\toks1=\count0}
+\showthe\toks1
+%\message{~ \the\toks1 @}
+
+\toks0={abc \relax def}
+\showthe\toks0
+
+\tracingcommands=0 % TODO XXX
+\message{~ \the\toks0 @}
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\toks0={123}
+\count\the\toks0=234
+\showthe\count123
+
+\toks0={\count123=432}
+\showthe\count123
+\the\toks0
+\showthe\count123
+
+\end

@@ -1,0 +1,42 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\catcode`#=6
+
+\expandafter \let \csname x\endcsname = \count
+\show\x
+
+\expandafter \global \expandafter \let \csname y\endcsname = \count
+\show\y
+
+\iftrue \expandafter \relax \else \show \x \fi
+
+\def\testmacrox{\testmacroa}
+\def\testmacroy{\testmacrob}
+\def\testmacroz{\testmacroc}
+\def\testmacrozz{\testmacrocc}
+\def\testmacroa{aa}
+\def\testmacrob{bb}
+\def\testmacroc{cc}
+\def\testmacrocc{ccc}
+\immediate\write16{}
+\expandafter \testmacrox \testmacroy \testmacroz \testmacrozz
+
+\immediate\write16{}
+\expandafter \expandafter \testmacrox \testmacroy \testmacroz \testmacrozz
+
+% expandafter and if
+\def\two#1#2{}
+\expandafter\two\ifx1134\fi78
+\expandafter\two\ifx1234\fi78
+\expandafter\two\ifx1234\else56\fi78
+\ifx11 \expandafter\two \fi78
+\ifx11 \expandafter\two \else34\fi78
+
+\end
+
+

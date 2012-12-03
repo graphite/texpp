@@ -1,0 +1,5 @@
+This is a fork of TeXpp is a library for parsing TeX documents into a document tree suitable for document manipulation and information extraction.
+
+Original project could be find here: http://code.google.com/p/texpp/
+
+This fork was created because the original project is no longer supported.

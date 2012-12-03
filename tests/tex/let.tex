@@ -1,0 +1,46 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+% control->control
+\let\x\relax
+\show\x
+
+\let\y=\relax
+\show\y
+
+\let\:a \show\:
+
+% redefine existing control
+\let\relax\z \show\relax
+
+% control->token
+\let\x aa \show\x
+\let\x 11 \show\x
+
+% expandable tokens
+\let\string=\relax
+\show\string
+
+\let\x=\number
+\show\x
+
+% active symbol
+\catcode`!=13
+\let!=\par
+\show!
+
+% errors
+\let=\x
+\let1=\x
+\let a=\x
+
+% macro
+\catcode`{=1
+\catcode`}=2
+\def\x{12}
+\let\y\x
+\show\y
+
+\end

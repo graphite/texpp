@@ -1,0 +1,78 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\catcode`#=6
+
+\def\testmacro12{zzz}
+\show\testmacro
+\testmacro22
+\testmacro11
+\testmacro13
+\testmacro12
+%\message{\testmacro12} %TODO
+
+\def\testmacro#1{z#1zz}
+\show\testmacro
+\testmacro12
+\testmacro{12}
+\testmacro{12{34}}
+\testmacro{{12}34}
+
+\def\testmacro[#1]{z#1z}
+\testmacro[12]
+\testmacro[{12}]
+\testmacro[{12{34}}]
+\testmacro[{{12}34}]
+\testmacro[12{34}]
+\testmacro[{12}34]
+
+\def\testmacro#1#{z#1z}
+\testmacro12{}
+\testmacro{12}{}
+\testmacro{12{34}}{}
+\testmacro{{12}34}{}
+
+\def\testmacro#1#2{z#1zz#2z}
+\show\testmacro
+\testmacro12
+\testmacro{12}a
+\testmacro4{12{34}}
+\testmacro5{{12}34}
+
+\def\testmacro#1{z#1#1zz\relax{\relax}}
+\show\testmacro
+\testmacro12
+\testmacro{12}
+\testmacro{12{34}}
+\testmacro{{12}34}
+
+\let\newtoks=\relax
+\outer\def\newhelp#1#2{\newtoks#1#1\expandafter{\csname#2\endcsname}}
+
+%spaces
+\def\testmacro#1a#2{z#1z#2}
+
+\testmacro x a b /
+
+\def\space{ }
+\edef\arg{\space\space x a\space\space b/}
+\expandafter\testmacro\arg
+
+\edef\arg{\space\space {x} a\space\space {b}/}
+\expandafter\testmacro\arg
+
+\edef\arg{{x} a\space\space {b}/}
+\expandafter\testmacro\arg
+
+\def\testmacro#1 #2/{z#1z#2}
+\edef\arg{\space\space x a\space\space b/}
+\expandafter\testmacro\arg
+
+\edef\arg{\space\space {x} a\space\space {b}/}
+\expandafter\testmacro\arg
+
+\end

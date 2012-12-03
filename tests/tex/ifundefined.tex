@@ -1,0 +1,42 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\catcode`$=3
+\catcode`#=6
+\catcode`^=7
+\catcode`@=11
+
+\countdef\m@ne=22 \m@ne=-1
+\dimendef\z@=25 \z@=0pt % can be used both for 0pt and 0
+\chardef\@ne=1
+\chardef\tw@=2
+
+\def\wlog{\immediate\write\m@ne}
+
+\long\def\@firstoftwo#1#2{#1}
+\long\def\@secondoftwo#1#2{#2}
+
+\def\@ifundefined#1{%
+  \expandafter\ifx\csname#1\endcsname\relax
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi}
+
+\@ifundefined{zzz}
+    {\show\x}%
+    {\show\y}
+
+
+\def\xxx{}
+\@ifundefined{xxx}
+    {\show\x}%
+    {\show\y}
+
+\expandafter\@firstoftwo\ifx12 zz\fi78
+
+\end

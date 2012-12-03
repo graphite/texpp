@@ -1,0 +1,91 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\catcode`$=3
+\catcode`#=6
+\catcode`^=7
+\catcode`@=11
+
+\countdef\m@ne=22 \m@ne=-1
+\dimendef\z@=25 \z@=0pt % can be used both for 0pt and 0
+\chardef\@ne=1
+\chardef\tw@=2
+
+\def\wlog{\immediate\write\m@ne}
+
+\long\def\@ifnextchar#1#2#3{%
+  \let\reserved@d=#1%
+  \def\reserved@a{#2}%
+  \def\reserved@b{#3}%
+  \futurelet\@let@token\@ifnch}
+\let\kernel@ifnextchar\@ifnextchar
+\def\@ifnch{%
+  \ifx\@let@token\@sptoken
+    \let\reserved@c\@xifnch
+  \else
+    \ifx\@let@token\reserved@d
+      \let\reserved@c\reserved@a
+    \else
+      \let\reserved@c\reserved@b
+    \fi
+  \fi
+  \reserved@c}
+\def\:{\let\@sptoken= } \:  % this makes \@sptoken a space token
+\def\:{\@xifnch} \expandafter\def\: {\futurelet\@let@token\@ifnch}
+
+\def\makeatletter{\catcode`\@11\relax}
+\def\makeatother{\catcode`\@12\relax}
+\def\@makeother#1{\catcode`#1=12\relax}
+
+\def\ProvidesFile#1{%
+  \begingroup
+    \catcode`\ 10 %
+    \ifnum \endlinechar<256 %
+      \ifnum \endlinechar>\m@ne
+        \catcode\endlinechar 10 %
+      \fi
+    \fi
+    \@makeother\/%
+    \@ifnextchar[{\@providesfile{#1}}{\@providesfile{#1}[]}}
+\def\@providesfile#1[#2]{%
+    \wlog{File: #1 #2}%
+    \@addtofilelist{ #2}%
+    \endgroup}
+\long\def\@addtofilelist#1{}
+
+\def\nfss@catcodes{%
+     \makeatletter
+     \catcode`\ 9%
+     \catcode`\^^I9%
+     \catcode`\^^M9%
+     \catcode`\\\z@
+     \catcode`\{\@ne
+     \catcode`\}\tw@
+     \catcode`\#6%
+     \catcode`\^7%
+     \catcode`\%14%
+   \@makeother\<%
+   \@makeother\>%
+   \@makeother\*%
+   \@makeother\.%
+   \@makeother\-%
+   \@makeother\/%
+   \@makeother\[%
+   \@makeother\]%
+   \@makeother\`%
+   \@makeother\'%
+   \@makeother\"%
+}
+
+\begingroup
+\nfss@catcodes
+\showthe\endlinechar
+\ProvidesFile{t1cmr.fd}
+        [1999/05/25 v2.5h Standard LaTeX font definitions]
+\endgroup
+
+\end

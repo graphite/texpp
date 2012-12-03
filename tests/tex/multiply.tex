@@ -1,0 +1,103 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\count10=20
+\multiply\count10 30
+\showthe\count10
+
+% spaces and by
+\count10=20
+\multiply  \count  10  20
+\showthe\count10
+
+\multiply  \count  10  by 20
+\showthe\count10
+
+\multiply  \count  10by20
+\showthe\count10
+
+% dimen
+\dimen0=10.5pt
+\multiply\dimen0by0.4pt
+\showthe\dimen0
+
+\multiply\dimen0by0.1pt
+\showthe\dimen0
+
+\multiply\dimen0by0.3cc
+\showthe\dimen0
+
+\multiply\dimen0by"3FFFFFFFsp
+\showthe\dimen0
+
+\count1="7FFFFFFF
+\multiply\count1by2
+\dimen1=1\count1
+\showthe\dimen1
+
+% skip
+\skip0=10.5pt plus 4pt minus 3fil
+\multiply\skip0by0.4pt plus 1fil minus 4pt
+\showthe\skip0
+
+\multiply\skip0by0.1pt plus 2fil minus 4fill
+\showthe\skip0
+
+\multiply\skip0by0.3cc
+\showthe\skip0
+
+\multiply\skip0by"3FFFFFFFsp
+\showthe\skip0
+
+\count1="7FFFFFFF
+\multiply\count1by2
+\skip1=1\count1
+\showthe\skip1
+
+% muskip
+\muskip0=10.5mu plus 4mu minus 3fil
+\multiply\muskip0by0.4mu plus 1fil minus 4mu
+\showthe\muskip0
+
+\multiply\muskip0by0.1mu plus 2fil minus 4fill
+\showthe\muskip0
+
+\multiply\muskip0by0.3cc
+\showthe\muskip0
+
+\multiply\muskip0by"3FFFFFFFsp
+\showthe\muskip0
+
+\count1="7FFFFFFF
+\multiply\count1by2
+\muskip1=1\count1
+\showthe\muskip1
+
+
+% overflow
+\count1=214748364
+\multiply\count1by11
+\showthe\count1
+
+\count1=107374182
+\multiply\count1by11
+\showthe\count1
+
+\dimen1=214748364sp
+\multiply\dimen1by11sp
+\showthe\dimen1
+
+\dimen1=107374182sp
+\multiply\dimen1by11sp
+\showthe\dimen1
+
+% errors
+\multiply\par\relax
+
+\count0=10
+\multiply\count0by\relax
+\showthe\count0
+
+\end

@@ -1,0 +1,25 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+% control->control
+\futurelet\x1\relax
+\show\x
+
+\futurelet\y1\relax
+\show\y
+
+\futurelet\:1a \show\:
+
+% expandable tokens
+\futurelet\x\number20
+\show\x
+
+% command
+\futurelet\x\count10=20
+\show\x
+\showthe\count10
+
+\end
+

@@ -1,0 +1,59 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+\batchmode
+
+\catcode`{=1
+\catcode`}=2
+\catcode`$=3
+\catcode`#=6
+\catcode`@=11
+
+\ifeof-1\show\x\else\show\y\fi
+\ifeof0\show\x\else\show\y\fi
+\ifeof1\show\x\else\show\y\fi
+\ifeof16\show\x\else\show\y\fi
+
+\openin3=read.1.aux
+\ifeof3\show\x\else\show\y\fi
+\read3to\x \show\x
+\ifeof3\show\x\else\show\y\fi
+
+\openin 3 = read.1.aux
+\read 3 to \x \show \x
+
+\openin4=read.2.aux
+\ifeof4\show\x\else\show\y\fi
+\read4to\x \show\x
+\read4to\x \show\x
+\read4to\x \show\x
+\read4to\x \show\x
+\read4to\x \show\x
+\ifeof4\show\x\else\show\y\fi
+\read4to\x \show\x
+\ifeof4\show\x\else\show\y\fi
+
+\openin5=nonexistant.file.name
+\ifeof5\show\x\else\show\y\fi
+
+\openin7=read.1.aux
+\ifeof7\show\x\else\show\y\fi
+\closein7
+\ifeof7\show\x\else\show\y\fi
+
+% emtpy lines
+\openin8=read.3.aux
+{
+\def\empty{}
+\endlinechar=-1
+\global\read8to\x \show\x
+\ifx\x\empty\show\z\fi
+\read8to\x \show\x
+\ifx\x\empty\show\z\fi
+\read8to\x \show\x
+\ifx\x\empty\show\z\fi
+}
+\closein8
+\end
+

@@ -1,0 +1,35 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\catcode`{=1
+\catcode`}=2
+\catcode`$=3
+\catcode`#=6
+\catcode`@=11
+
+\countdef\count@=255
+\countdef\m@ne=22 \m@ne=-1
+
+\outer\def\newif#1{\count@\escapechar \escapechar\m@ne
+  \expandafter\expandafter\expandafter
+   \def\@if#1{true}{\let#1=\iftrue}%
+  \expandafter\expandafter\expandafter
+   \def\@if#1{false}{\let#1=\iffalse}%
+  \@if#1{false}\escapechar\count@} % the condition starts out false
+\def\@if#1#2{\csname\expandafter\if@\string#1#2\endcsname}
+{\uccode`1=`i \uccode`2=`f \uppercase{\gdef\if@12{}}} % `if' is required
+
+\newif\iffoo
+
+\iffoo\show\x\else\show\y\fi
+\footrue
+\iffoo\show\x\else\show\y\fi
+\foofalse
+\iffoo\show\x\else\show\y\fi
+
+\newif\fifoo
+
+\end
+

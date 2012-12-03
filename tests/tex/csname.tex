@@ -1,0 +1,32 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\showthe\count145
+\csname count\endcsname145=541
+\showthe\count145
+
+\csname x \endcsname
+\show\x
+
+\csname x\endcsname
+\show\x
+
+\let\x=\csname\endcsname
+\show\x
+
+\let\x\csname\endcsname
+\show\x
+
+\csname xx\csname yy\endcsname \endcsname
+\show\xx
+\show\yy
+
+%relax
+\csname zzz\endcsname
+\ifx\zzz\relax
+\show\zzz
+\fi
+
+\end

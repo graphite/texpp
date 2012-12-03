@@ -1,0 +1,88 @@
+\tracingonline=2
+\tracingcommands=2
+\tracingmacros=2
+\tracingrestores=2
+
+\showthe\font
+\showthe\textfont10
+
+\font\x=cmr10
+
+\showthe\font
+\showthe\textfont10
+
+\x
+
+\showthe\font
+\showthe\textfont10
+
+\font\y=cmr10 at 20pt
+
+\showthe\font
+\showthe\textfont10
+
+\y
+
+\showthe\font
+\showthe\textfont10
+
+\font\y=cmr10 scaled 2
+
+\showthe\font
+\showthe\textfont10
+
+\y
+
+\showthe\font
+\showthe\textfont10
+
+\textfont10=\x
+
+\showthe\font
+\showthe\textfont10
+
+\textfont10=\y
+
+\showthe\font
+\showthe\textfont10
+
+\x
+\textfont10=\font
+
+\showthe\font
+\showthe\textfont10
+
+\textfont11=\textfont10
+
+\showthe\font
+\showthe\textfont10
+\showthe\textfont11
+
+\textfont10=\relax
+
+\showthe\font
+\showthe\textfont10
+
+\font\z=cmr10 at 0pt
+\showthe\z
+
+\font\z=cmr10 scaled 0
+\showthe\z
+
+\catcode`{=1
+\catcode`}=2
+\newlinechar=`@
+
+\message{~ \fontname\font @}
+\message{~ \fontname\x @}
+\message{~ \fontname\y @}
+\message{~ \fontname\textfont11 @}
+\message{~ \fontname\textfont2 @}
+\message{~ \fontname\relax @}
+
+\font\z=cmr10 at 20pt
+\message{~ \fontname\z @}
+\font\z=cmr10 scaled 20
+\message{~ \fontname\z @}
+
+\end
