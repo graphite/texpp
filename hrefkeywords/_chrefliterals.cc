@@ -131,7 +131,7 @@ std::wstring strToWStr(string input)
     return result;
 }
 
-std::wstring stem_wstring(std::wstring input)
+std::wstring stem_wstring(std::wstring input, bool multilang=false)
 {
     size_t length = input.length();
     std::wstring input_backup(input);
@@ -140,56 +140,59 @@ std::wstring stem_wstring(std::wstring input)
     if ((input.length() != length) && (input.length() != 0))
         return input;
     input = input_backup;
-    stemming::french_stem<> StemFrench;
-    StemFrench(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::german_stem<> StemGerman;
-    StemGerman(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::spanish_stem<> StemSpanish;
-    StemSpanish(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::italian_stem<> StemItalian;
-    StemItalian(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::portuguese_stem<> StemPortuguese;
-    StemPortuguese(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::dutch_stem<> StemDutch;
-    StemDutch(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::danish_stem<> StemDanish;
-    StemDanish(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::finnish_stem<> StemFinnish;
-    StemFinnish(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::norwegian_stem<> StemNorwegian;
-    StemNorwegian(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
-    stemming::swedish_stem<> StemSwedish;
-    StemSwedish(input);
-    if ((input.length() != length) && (input.length() != 0))
-        return input;
-    input = input_backup;
+    if (multilang)
+    {
+        stemming::french_stem<> StemFrench;
+        StemFrench(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::german_stem<> StemGerman;
+        StemGerman(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::spanish_stem<> StemSpanish;
+        StemSpanish(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::italian_stem<> StemItalian;
+        StemItalian(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::portuguese_stem<> StemPortuguese;
+        StemPortuguese(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::dutch_stem<> StemDutch;
+        StemDutch(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::danish_stem<> StemDanish;
+        StemDanish(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::finnish_stem<> StemFinnish;
+        StemFinnish(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::norwegian_stem<> StemNorwegian;
+        StemNorwegian(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+        stemming::swedish_stem<> StemSwedish;
+        StemSwedish(input);
+        if ((input.length() != length) && (input.length() != 0))
+            return input;
+        input = input_backup;
+    }
     stemming::russian_stem<> StemRussian;
     StemRussian(input);
     if ((input.length() != length) && (input.length() != 0))
@@ -198,7 +201,8 @@ std::wstring stem_wstring(std::wstring input)
 }
 
 string normLiteral(string literal,
-        const WordsDict* wordsDict, const dict& whiteList)
+        const WordsDict* wordsDict, const dict& whiteList,
+        bool multilang)
 {
     stemming::english_stem<> StemEnglish;
     std::wstring nWLiteral;
@@ -303,7 +307,7 @@ string normLiteral(string literal,
                         }
                     }
                 } else {
-                    nWLiteral += stem_wstring(word1);
+                    nWLiteral += stem_wstring(word1, multilang);
                 }
             }
         } else { // not inside a word
@@ -535,7 +539,7 @@ string getDocumentEncoding(const Node::ptr node)
 TextTagList findLiterals(const TextTagList& tags,
         const dict& literals, const dict& notLiterals,
         const WordsDict* wordsDict, const dict& whiteList,
-        size_t maxChars = 0)
+        size_t maxChars = 0, bool multilang=false)
 {
     TextTagList result;
 
@@ -604,7 +608,7 @@ TextTagList findLiterals(const TextTagList& tags,
             }
 
             // Norm literal
-            string literal = normLiteral(text, wordsDict, whiteList);
+            string literal = normLiteral(text, wordsDict, whiteList, multilang);
             if(literal.size() > maxChars) {
                 continue; // XXX: can normLiteral size gets smaller ?
             }
