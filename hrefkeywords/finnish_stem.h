@@ -179,13 +179,13 @@ namespace stemming
             else if (this->is_suffix_in_r1(text,/*an*/LOWER_A, UPPER_A, LOWER_N, UPPER_N) )
                 {
                 if ((text.length() >= 4 &&
-                    (is_partial_suffix(text, (text.length()-4), LOWER_T, UPPER_T, LOWER_A, UPPER_A) ||
-                    is_partial_suffix(text, (text.length()-4), LOWER_N, UPPER_N, LOWER_A, UPPER_A)) ) ||
+                    (this->is_partial_suffix(text, (text.length()-4), LOWER_T, UPPER_T, LOWER_A, UPPER_A) ||
+                    this->is_partial_suffix(text, (text.length()-4), LOWER_N, UPPER_N, LOWER_A, UPPER_A)) ) ||
                     (text.length() >= 5 &&
-                    (is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A) ||
-                    is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A, UPPER_A) ||
-                    is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_A, UPPER_A) ||
-                    is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_T, UPPER_T, LOWER_A, UPPER_A) ) ) )
+                    (this->is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A) ||
+                    this->is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A, UPPER_A) ||
+                    this->is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_A, UPPER_A) ||
+                    this->is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_T, UPPER_T, LOWER_A, UPPER_A) ) ) )
                     {
                     text.erase(text.length()-2);
                     this->update_r_sections(text);
@@ -195,13 +195,13 @@ namespace stemming
             else if (this->is_suffix_in_r1(text,/*&#228;n*/LOWER_A_UMLAUTS, UPPER_A_UMLAUTS, LOWER_N, UPPER_N) )
                 {
                 if ((text.length() >= 4 &&
-                    (is_partial_suffix(text, (text.length()-4), LOWER_T, UPPER_T, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
-                    is_partial_suffix(text, (text.length()-4), LOWER_N, UPPER_N, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS)) ) ||
+                    (this->is_partial_suffix(text, (text.length()-4), LOWER_T, UPPER_T, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
+                    this->is_partial_suffix(text, (text.length()-4), LOWER_N, UPPER_N, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS)) ) ||
                     (text.length() >= 5 &&
-                    (is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
-                    is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
-                    is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
-                    is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_T, UPPER_T, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ) ) )
+                    (this->is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
+                    this->is_partial_suffix(text, (text.length()-5), LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
+                    this->is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ||
+                    this->is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_T, UPPER_T, LOWER_A_UMLAUTS, UPPER_A_UMLAUTS) ) ) )
                     {
                     text.erase(text.length()-2);
                     this->update_r_sections(text);
@@ -211,8 +211,8 @@ namespace stemming
             else if (this->is_suffix_in_r1(text,/*en*/LOWER_E, UPPER_E, LOWER_N, UPPER_N) )
                 {
                 if (text.length() >= 5 &&
-                    (is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_E, UPPER_E) ||
-                    is_partial_suffix(text, (text.length()-5), LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_E, UPPER_E) ) )
+                    (this->is_partial_suffix(text, (text.length()-5), LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_E, UPPER_E) ||
+                    this->is_partial_suffix(text, (text.length()-5), LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_E, UPPER_E) ) )
                     {
                     text.erase(text.length()-2);
                     this->update_r_sections(text);
