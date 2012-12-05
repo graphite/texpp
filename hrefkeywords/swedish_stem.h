@@ -43,11 +43,11 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
-            trim_western_punctuation(text);
+            this->trim_western_punctuation(text);
 
             //see where the R1 section begins
             //R1 is the first consonant after the first vowel
-            find_r1(text, SWEDISH_VOWELS);
+            this->find_r1(text, SWEDISH_VOWELS);
             if (stem<string_typeT>::get_r1() == text.length())
                 {
                 return;
@@ -78,160 +78,160 @@ namespace stemming
         //---------------------------------------------
         void step_1(string_typeT& text)
             {
-            if (delete_if_is_in_r1(text,/*heterna*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
+            if (this->delete_if_is_in_r1(text,/*heterna*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*hetens*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*hetens*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*arna*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_r1(text,/*arna*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*erna*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_r1(text,/*erna*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*orna*/LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_r1(text,/*orna*/LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, false) )
                 {
                 return;
                 }    
-            else if (delete_if_is_in_r1(text,/*ande*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_r1(text,/*ande*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*arne*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_r1(text,/*arne*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_E, UPPER_E, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*aste*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_r1(text,/*aste*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*anden*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
+            else if (this->delete_if_is_in_r1(text,/*anden*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*heten*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
+            else if (this->delete_if_is_in_r1(text,/*heten*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*heter*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_r1(text,/*heter*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*arnas*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*arnas*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ernas*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*ernas*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ornas*/LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*ornas*/LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*arens*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*arens*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*andet*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_r1(text,/*andet*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_T, UPPER_T, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*andes*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*andes*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*aren*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
+            else if (this->delete_if_is_in_r1(text,/*aren*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text, /*erns*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text, /*erns*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ades*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*ades*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*are*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_r1(text,/*are*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ade*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_r1(text,/*ade*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*het*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_r1(text,/*het*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_T, UPPER_T, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ast*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_r1(text,/*ast*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text, /*ens*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text, /*ens*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ern*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, false) )
+            else if (this->delete_if_is_in_r1(text,/*ern*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_N, UPPER_N, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_r1(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*es*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*es*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*or*/LOWER_O, UPPER_O, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_r1(text,/*or*/LOWER_O, UPPER_O, LOWER_R, UPPER_R, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ad*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, false) )
+            else if (this->delete_if_is_in_r1(text,/*ad*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*as*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*as*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ar*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_r1(text,/*ar*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_r1(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*en*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
+            else if (this->delete_if_is_in_r1(text,/*en*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_r1(text, LOWER_A, UPPER_A, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_r1(text, LOWER_E, UPPER_E, false) )
                 {
                 return;
                 }
             /**Define a valid s-ending as one of 
                 -b c d f g h j k l m n o p r t v y*/
-            else if (is_suffix_in_r1(text, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_r1(text, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 2 &&
                     string_util::is_one_of(text[text.length()-2],
                     L"bcdfghjklmnoprtvyBCDFGHJKLMNOPRTVY") )
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
@@ -246,40 +246,40 @@ namespace stemming
         //---------------------------------------------
         void step_2(string_typeT& text)
             {
-            if (is_suffix_in_r1(text,/*dd*/LOWER_D, UPPER_D, LOWER_D, UPPER_D) )
+            if (this->is_suffix_in_r1(text,/*dd*/LOWER_D, UPPER_D, LOWER_D, UPPER_D) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix_in_r1(text,/*gd*/LOWER_G, UPPER_G, LOWER_D, UPPER_D) )
+            else if (this->is_suffix_in_r1(text,/*gd*/LOWER_G, UPPER_G, LOWER_D, UPPER_D) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix_in_r1(text,/*nn*/LOWER_N, UPPER_N, LOWER_N, UPPER_N) )
+            else if (this->is_suffix_in_r1(text,/*nn*/LOWER_N, UPPER_N, LOWER_N, UPPER_N) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix_in_r1(text,/*dt*/LOWER_D, UPPER_D, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_r1(text,/*dt*/LOWER_D, UPPER_D, LOWER_T, UPPER_T) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix_in_r1(text,/*gt*/LOWER_G, UPPER_G, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_r1(text,/*gt*/LOWER_G, UPPER_G, LOWER_T, UPPER_T) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix_in_r1(text,/*kt*/LOWER_K, UPPER_K, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_r1(text,/*kt*/LOWER_K, UPPER_K, LOWER_T, UPPER_T) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix_in_r1(text,/*tt*/LOWER_T, UPPER_T, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_r1(text,/*tt*/LOWER_T, UPPER_T, LOWER_T, UPPER_T) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
             }
         /**\htmlonly
@@ -297,25 +297,25 @@ namespace stemming
         //---------------------------------------------
         void step_3(string_typeT& text)
             {
-            if (is_suffix_in_r1(text,/*fullt*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_T, UPPER_T) )
+            if (this->is_suffix_in_r1(text,/*fullt*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_T, UPPER_T) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix_in_r1(text,/*l&#246;st*/LOWER_L, UPPER_L, LOWER_O_UMLAUTS, UPPER_O_UMLAUTS, LOWER_S, UPPER_S, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_r1(text,/*l&#246;st*/LOWER_L, UPPER_L, LOWER_O_UMLAUTS, UPPER_O_UMLAUTS, LOWER_S, UPPER_S, LOWER_T, UPPER_T) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (delete_if_is_in_r1(text,/*lig*/LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_G, UPPER_G, false) )
+            else if (this->delete_if_is_in_r1(text,/*lig*/LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_G, UPPER_G, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*els*/LOWER_E, UPPER_E, LOWER_L, UPPER_L, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r1(text,/*els*/LOWER_E, UPPER_E, LOWER_L, UPPER_L, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r1(text,/*ig*/LOWER_I, UPPER_I, LOWER_G, UPPER_G, false) )
+            else if (this->delete_if_is_in_r1(text,/*ig*/LOWER_I, UPPER_I, LOWER_G, UPPER_G, false) )
                 {
                 return;
                 }

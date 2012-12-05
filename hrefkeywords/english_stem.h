@@ -104,7 +104,7 @@ namespace stemming
             m_first_vowel = string_typeT::npos;
             stem<string_typeT>::reset_r_values();
 
-            trim_western_punctuation(text);
+            this->trim_western_punctuation(text);
 
             //handle exceptions first
             if (is_exception(text) )
@@ -112,7 +112,7 @@ namespace stemming
                 return;
                 }
 
-            hash_y(text, L"aeiouyAEIOUY");
+            this->hash_y(text, L"aeiouyAEIOUY");
             m_first_vowel = text.find_first_of(L"aeiouyAEIOUY");
             if (m_first_vowel == string_typeT::npos)
                 { return; }
@@ -150,10 +150,10 @@ namespace stemming
                 }
             else
                 {
-                find_r1(text, L"aeiouyAEIOUY");
+                this->find_r1(text, L"aeiouyAEIOUY");
                 }
 
-            find_r2(text, L"aeiouyAEIOUY");
+            this->find_r2(text, L"aeiouyAEIOUY");
 
             //step 1a:
             step_1a(text);
@@ -175,7 +175,7 @@ namespace stemming
             //step 5:
             step_5(text);
 
-            unhash_y(text);
+            this->unhash_y(text);
             }
     private:
         //---------------------------------------------
@@ -448,23 +448,23 @@ namespace stemming
         //---------------------------------------------
         void step_1a(string_typeT& text)
             {
-            if (is_suffix(text,/*sses*/LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            if (this->is_suffix(text,/*sses*/LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 text.erase(text.length()-2);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (is_suffix(text,/*ied*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_D, UPPER_D) ||
-                    is_suffix(text,/*ies*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix(text,/*ied*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_D, UPPER_D) ||
+                    this->is_suffix(text,/*ies*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (text.length() == 3 || text.length() == 4)
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 else
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 2 &&
@@ -473,7 +473,7 @@ namespace stemming
                     !string_util::is_one_of(text[text.length()-2], L"suSU") )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
             }
         /**Search for the longest among the following suffixes, and perform the action indicated. 
@@ -492,78 +492,78 @@ namespace stemming
             //if the preceding word contains a vowel
             bool regress_trim = false;
 
-            if (is_suffix(text,/*eed*/LOWER_E, UPPER_E, LOWER_E, UPPER_E, LOWER_D, UPPER_D) )
+            if (this->is_suffix(text,/*eed*/LOWER_E, UPPER_E, LOWER_E, UPPER_E, LOWER_D, UPPER_D) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-3)
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (is_suffix(text,/*eedly*/LOWER_E, UPPER_E, LOWER_E, UPPER_E, LOWER_D, UPPER_D, LOWER_L, UPPER_L, LOWER_Y, UPPER_Y) )
+            else if (this->is_suffix(text,/*eedly*/LOWER_E, UPPER_E, LOWER_E, UPPER_E, LOWER_D, UPPER_D, LOWER_L, UPPER_L, LOWER_Y, UPPER_Y) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (is_suffix(text,/*ed*/LOWER_E, UPPER_E, LOWER_D, UPPER_D) &&
+            else if (this->is_suffix(text,/*ed*/LOWER_E, UPPER_E, LOWER_D, UPPER_D) &&
                 m_first_vowel < text.length()-2)
                 {
                 text.erase(text.length()-2);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 regress_trim = true;
                 }
-            else if (is_suffix(text,/*edly*/LOWER_E, UPPER_E, LOWER_D, UPPER_D, LOWER_L, UPPER_L, LOWER_Y, UPPER_Y) &&
+            else if (this->is_suffix(text,/*edly*/LOWER_E, UPPER_E, LOWER_D, UPPER_D, LOWER_L, UPPER_L, LOWER_Y, UPPER_Y) &&
                 m_first_vowel < text.length()-4)
                 {
                 text.erase(text.length()-4);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 regress_trim = true;
                 }
-            else if (is_suffix(text,/*ing*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_G, UPPER_G) &&
+            else if (this->is_suffix(text,/*ing*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_G, UPPER_G) &&
                 m_first_vowel < text.length()-3)
                 {
                 text.erase(text.length()-3);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 regress_trim = true;
                 }
-            else if (is_suffix(text,/*ingly*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_G, UPPER_G, LOWER_L, UPPER_L, LOWER_Y, UPPER_Y) &&
+            else if (this->is_suffix(text,/*ingly*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_G, UPPER_G, LOWER_L, UPPER_L, LOWER_Y, UPPER_Y) &&
                 m_first_vowel < text.length()-5)
                 {
                 text.erase(text.length()-5);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 regress_trim = true;
                 }
             if (regress_trim)
                 {
-                if (is_suffix(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) ||
-                    is_suffix(text,/*bl*/LOWER_B, UPPER_B, LOWER_L, UPPER_L) ||
-                    is_suffix(text,/*iz*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z) )
+                if (this->is_suffix(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) ||
+                    this->is_suffix(text,/*bl*/LOWER_B, UPPER_B, LOWER_L, UPPER_L) ||
+                    this->is_suffix(text,/*iz*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z) )
                     {
                     text += LOWER_E;
                     //need to search for r2 again because the 'e' added here may change that
-                    find_r2(text, L"aeiouyAEIOUY");
+                    this->find_r2(text, L"aeiouyAEIOUY");
                     }
-                else if (is_suffix(text,/*bb*/LOWER_B, UPPER_B, LOWER_B, UPPER_B) ||
-                        is_suffix(text,/*dd*/LOWER_D, UPPER_D, LOWER_D, UPPER_D) ||
-                        is_suffix(text,/*ff*/LOWER_F, UPPER_F, LOWER_F, UPPER_F) ||
-                        is_suffix(text,/*gg*/LOWER_G, UPPER_G, LOWER_G, UPPER_G) ||
-                        is_suffix(text,/*mm*/LOWER_M, UPPER_M, LOWER_M, UPPER_M) ||
-                        is_suffix(text,/*nn*/LOWER_N, UPPER_N, LOWER_N, UPPER_N) ||
-                        is_suffix(text,/*pp*/LOWER_P, UPPER_P, LOWER_P, UPPER_P) ||
-                        is_suffix(text,/*rr*/LOWER_R, UPPER_R, LOWER_R, UPPER_R) ||
-                        is_suffix(text,/*tt*/LOWER_T, UPPER_T, LOWER_T, UPPER_T) )
+                else if (this->is_suffix(text,/*bb*/LOWER_B, UPPER_B, LOWER_B, UPPER_B) ||
+                        this->is_suffix(text,/*dd*/LOWER_D, UPPER_D, LOWER_D, UPPER_D) ||
+                        this->is_suffix(text,/*ff*/LOWER_F, UPPER_F, LOWER_F, UPPER_F) ||
+                        this->is_suffix(text,/*gg*/LOWER_G, UPPER_G, LOWER_G, UPPER_G) ||
+                        this->is_suffix(text,/*mm*/LOWER_M, UPPER_M, LOWER_M, UPPER_M) ||
+                        this->is_suffix(text,/*nn*/LOWER_N, UPPER_N, LOWER_N, UPPER_N) ||
+                        this->is_suffix(text,/*pp*/LOWER_P, UPPER_P, LOWER_P, UPPER_P) ||
+                        this->is_suffix(text,/*rr*/LOWER_R, UPPER_R, LOWER_R, UPPER_R) ||
+                        this->is_suffix(text,/*tt*/LOWER_T, UPPER_T, LOWER_T, UPPER_T) )
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 else if (is_short_word(text, text.length() ) )
                     {
                     text += LOWER_E;
                     //need to search for r2 again because the 'e' added here may change that
-                    find_r2(text, L"aeiouyAEIOUY");
+                    this->find_r2(text, L"aeiouyAEIOUY");
                     }
                 }
             }
@@ -609,138 +609,138 @@ namespace stemming
         void step_2(string_typeT& text)
             {
             if (text.length() >= 7 &&
-				(is_suffix(text,/*ization*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
-				is_suffix(text,/*ational*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) ) )
+				(this->is_suffix(text,/*ization*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
+				this->is_suffix(text,/*ational*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-7)
                     {
                     text.erase(text.length()-4);
                     text[static_cast<int>(text.length()-1)] = LOWER_E;
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 7 &&
-				(is_suffix(text,/*fulness*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) ||
-				is_suffix(text,/*ousness*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) ||
-				is_suffix(text,/*iveness*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) ) )
+				(this->is_suffix(text,/*fulness*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) ||
+				this->is_suffix(text,/*ousness*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) ||
+				this->is_suffix(text,/*iveness*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-7)
                     {
                     text.erase(text.length()-4);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 6 &&
-				(is_suffix(text,/*tional*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) ||
-				is_suffix(text,/*lessli*/LOWER_L, UPPER_L, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ) )
+				(this->is_suffix(text,/*tional*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) ||
+				this->is_suffix(text,/*lessli*/LOWER_L, UPPER_L, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-6)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 6 && is_suffix(text,/*biliti*/LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) )
+            else if (text.length() >= 6 && this->is_suffix(text,/*biliti*/LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-6)
                     {
                     text.erase(text.length()-3);
                     text[text.length()-2] = LOWER_L;
                     text[text.length()-1] = LOWER_E;
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 5 &&
-				(is_suffix(text,/*iviti*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ||
-				is_suffix(text,/*ation*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ) )
+				(this->is_suffix(text,/*iviti*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ||
+				this->is_suffix(text,/*ation*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
                     text.erase(text.length()-2);
                     text[text.length()-1] = LOWER_E;
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 5 &&
-				(is_suffix(text,/*alism*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M) ||
-				is_suffix(text,/*aliti*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ) )
+				(this->is_suffix(text,/*alism*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M) ||
+				this->is_suffix(text,/*aliti*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 5 &&
-				(is_suffix(text,/*ousli*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ||
-				is_suffix(text,/*entli*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ||
-				is_suffix(text,/*fulli*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ) )
+				(this->is_suffix(text,/*ousli*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ||
+				this->is_suffix(text,/*entli*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ||
+				this->is_suffix(text,/*fulli*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 4 && is_suffix(text,/*alli*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_I, UPPER_I) )
+            else if (text.length() >= 4 && this->is_suffix(text,/*alli*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_L, UPPER_L, LOWER_I, UPPER_I) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-4)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 4 &&
-				(is_suffix(text,/*enci*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I) ||
-				is_suffix(text,/*anci*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I) ||
-				is_suffix(text,/*abli*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ) )
+				(this->is_suffix(text,/*enci*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I) ||
+				this->is_suffix(text,/*anci*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I) ||
+				this->is_suffix(text,/*abli*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_I, UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-4)
                     {
                     text[text.length()-1] = LOWER_E;
                     }
                 }
-            else if (text.length() >= 4 && is_suffix(text,/*izer*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_E, UPPER_E, LOWER_R, UPPER_R) )
+            else if (text.length() >= 4 && this->is_suffix(text,/*izer*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_E, UPPER_E, LOWER_R, UPPER_R) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-4)
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 4 && is_suffix(text,/*ator*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_O, UPPER_O, LOWER_R, UPPER_R) )
+            else if (text.length() >= 4 && this->is_suffix(text,/*ator*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_O, UPPER_O, LOWER_R, UPPER_R) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-4)
                     {
                     text.erase(text.length()-1);
                     text[text.length()-1] = LOWER_E;
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 3 &&
                 stem<string_typeT>::get_r1() <= (text.length()-3) &&
-                is_suffix(text,/*bli*/LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_I, UPPER_I) )
+                this->is_suffix(text,/*bli*/LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_I, UPPER_I) )
                 {
                 text[text.length()-1] = LOWER_E;
                 }
             else if (text.length() >= 3 &&
                 stem<string_typeT>::get_r1() <= (text.length()-3) &&
-                is_suffix(text,/*ogi*/LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I, UPPER_I) )
+                this->is_suffix(text,/*ogi*/LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I, UPPER_I) )
                 {
                 if (is_either<wchar_t>(text[text.length()-4], LOWER_L, UPPER_L) )
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 2 &&
                     stem<string_typeT>::get_r1() <= (text.length()-2) &&
-                    is_suffix(text,/*li*/LOWER_L, UPPER_L, LOWER_I, UPPER_I) )
+                    this->is_suffix(text,/*li*/LOWER_L, UPPER_L, LOWER_I, UPPER_I) )
                 {
                 if (string_util::is_one_of(text[text.length()-3], L"cdeghkmnrtCDEGHKMNRT") )
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             }
@@ -755,64 +755,64 @@ namespace stemming
         //---------------------------------------------
         void step_3(string_typeT& text) 
             {
-            if (text.length() >= 7 && is_suffix(text,/*ational*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) )
+            if (text.length() >= 7 && this->is_suffix(text,/*ational*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-7)
                     {
                     text.erase(text.length()-4);
                     text[text.length()-1] = LOWER_E;
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 6 && is_suffix(text,/*tional*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) )
+            else if (text.length() >= 6 && this->is_suffix(text,/*tional*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_A, UPPER_A, LOWER_L, UPPER_L) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-6)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 5 &&
-				(is_suffix(text,/*icate*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E) ||
-				is_suffix(text,/*iciti*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ||
-				is_suffix(text,/*alize*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_E, UPPER_E) ) )
+				(this->is_suffix(text,/*icate*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E) ||
+				this->is_suffix(text,/*iciti*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ||
+				this->is_suffix(text,/*alize*/LOWER_A, UPPER_A, LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_E, UPPER_E) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 5 && is_suffix(text,/*ative*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E) )
+            else if (text.length() >= 5 && this->is_suffix(text,/*ative*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-5)
                     {
                     text.erase(text.length()-5);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 4 && is_suffix(text,/*ical*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A, LOWER_L, UPPER_L) )
+            else if (text.length() >= 4 && this->is_suffix(text,/*ical*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A, LOWER_L, UPPER_L) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-4)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 4 && is_suffix(text,/*ness*/LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) )
+            else if (text.length() >= 4 && this->is_suffix(text,/*ness*/LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-4)
                     {
                     text.erase(text.length()-4);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 3 && is_suffix(text,/*ful*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L) )
+            else if (text.length() >= 3 && this->is_suffix(text,/*ful*/LOWER_F, UPPER_F, LOWER_U, UPPER_U, LOWER_L, UPPER_L) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-3)
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             }
@@ -826,62 +826,62 @@ namespace stemming
         void step_4(string_typeT& text)
             {
             if (text.length() >= 5 &&
-                is_suffix(text,/*ement*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+                this->is_suffix(text,/*ement*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-5)
                     {
                     text.erase(text.length()-5);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 4 &&
-                    (is_suffix(text,/*able*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E) ||
-                    is_suffix(text,/*ible*/LOWER_I, UPPER_I, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E) ||
-                    is_suffix(text,/*ment*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) ||
-                    is_suffix(text,/*ence*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E) ||
-                    is_suffix(text,/*ance*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E)) )
+                    (this->is_suffix(text,/*able*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E) ||
+                    this->is_suffix(text,/*ible*/LOWER_I, UPPER_I, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E) ||
+                    this->is_suffix(text,/*ment*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) ||
+                    this->is_suffix(text,/*ence*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E) ||
+                    this->is_suffix(text,/*ance*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E)) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-4)
                     {
                     text.erase(text.length()-4);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 4 &&
-                    (is_suffix(text,/*sion*/LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
-                    is_suffix(text,/*tion*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N)) )
+                    (this->is_suffix(text,/*sion*/LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
+                    this->is_suffix(text,/*tion*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N)) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-3)
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 3 &&
-                    (is_suffix(text,/*ant*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T) ||
-                    is_suffix(text,/*ent*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) ||
-                    is_suffix(text,/*ism*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M) ||
-                    is_suffix(text,/*ate*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E) ||
-                    is_suffix(text,/*iti*/LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ||
-                    is_suffix(text,/*ous*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, LOWER_S, UPPER_S) ||
-                    is_suffix(text,/*ive*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E) ||
-                    is_suffix(text,/*ize*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_E, UPPER_E)) )
+                    (this->is_suffix(text,/*ant*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T) ||
+                    this->is_suffix(text,/*ent*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) ||
+                    this->is_suffix(text,/*ism*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M) ||
+                    this->is_suffix(text,/*ate*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E) ||
+                    this->is_suffix(text,/*iti*/LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_I, UPPER_I) ||
+                    this->is_suffix(text,/*ous*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, LOWER_S, UPPER_S) ||
+                    this->is_suffix(text,/*ive*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E) ||
+                    this->is_suffix(text,/*ize*/LOWER_I, UPPER_I, LOWER_Z, UPPER_Z, LOWER_E, UPPER_E)) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-3)
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (text.length() >= 2 &&
-                    (is_suffix(text,/*al*/LOWER_A, UPPER_A, LOWER_L, UPPER_L) ||
-                    is_suffix(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R) ||
-                    is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C)) )
+                    (this->is_suffix(text,/*al*/LOWER_A, UPPER_A, LOWER_L, UPPER_L) ||
+                    this->is_suffix(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R) ||
+                    this->is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C)) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-2)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             }
@@ -900,7 +900,7 @@ namespace stemming
                 if (stem<string_typeT>::get_r2() != text.length())
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 else if (stem<string_typeT>::get_r1() != text.length() &&
                     text.length() >= 2 &&
@@ -909,14 +909,14 @@ namespace stemming
                     !ends_with_short_syllable(text, text.length()-1))
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else if (stem<string_typeT>::get_r2() != text.length() &&
-                is_suffix(text,/*ll*/LOWER_L, UPPER_L, LOWER_L, UPPER_L) )
+                this->is_suffix(text,/*ll*/LOWER_L, UPPER_L, LOWER_L, UPPER_L) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
             }
         /**Define a short syllable in a word as either

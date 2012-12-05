@@ -149,9 +149,9 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
-            find_r1(text, RUSSIAN_VOWELS);
-            find_r2(text, RUSSIAN_VOWELS);
-            find_russian_rv(text, RUSSIAN_VOWELS);
+            this->find_r1(text, RUSSIAN_VOWELS);
+            this->find_r2(text, RUSSIAN_VOWELS);
+            this->find_russian_rv(text, RUSSIAN_VOWELS);
 
             //change 33rd letter ('&#x0451;') to '&#x0435;'
             for (size_t i = 0; i < text.length(); ++i)
@@ -181,13 +181,13 @@ namespace stemming
             {
             //search for a perfect gerund
             //group 2
-            if (delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
+            if (this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
                                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                    RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                    RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                    RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
@@ -195,19 +195,19 @@ namespace stemming
                                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) )
                 { return; }
             //group 1
-            else if (is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
+            else if (this->is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                         RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                         RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                         RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) )
                 {
-                if (is_suffix_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
+                if (this->is_suffix_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
                                     RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                     RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                     RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                     RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                     RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) ||
-                    is_suffix_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    this->is_suffix_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
                                     RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                     RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                     RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
@@ -215,97 +215,97 @@ namespace stemming
                                     RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) )
                     {
                     text.erase(text.end()-5, text.end() );
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
             //group 2
-            else if (delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+            else if (this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                         RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                         RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                     delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
+                     this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
                                         RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                         RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) )
                 { return; }
             //group 1
-            else if (is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
+            else if (this->is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                         RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) )
                 {
-                if (is_suffix_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
+                if (this->is_suffix_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
                                     RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                     RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                     RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) ||
-                    is_suffix_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    this->is_suffix_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
                                     RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                     RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                     RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) )
                     {
                     text.erase(text.end()-3, text.end() );
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
             //group 2
-            else if (delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) )
+            else if (this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) )
                 { return; }
             //group 1
-            else if (is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) )
+            else if (this->is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) )
                 {
-                if (is_suffix_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) ||
-                    is_suffix_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) )
+                if (this->is_suffix_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) ||
+                    this->is_suffix_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) )
                     {
                     text.erase(text.end()-1, text.end() );
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
             //reflexive
-            if (delete_if_is_in_rv(text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) )
+            if (this->delete_if_is_in_rv(text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) )
                 { /*NOOP*/ }
             //adjectival
-            if (delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_UPPER, RUSSIAN_YERU_LOWER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_GHE_LOWER, RUSSIAN_GHE_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_GHE_LOWER, RUSSIAN_GHE_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||                
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||                
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||                
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) )
+            if (this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_UPPER, RUSSIAN_YERU_LOWER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_GHE_LOWER, RUSSIAN_GHE_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_GHE_LOWER, RUSSIAN_GHE_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||                
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||                
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||                
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) )
                 {
                 //delete participles
                 //group 2
-                if (delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
-                    delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
-                    delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER, false) )
+                if (this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
+                    this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
+                    this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER, false) )
                     {/*NOOP*/}
                 //group 1
-                else if (is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
-                        is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) ||
-                        is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER) ||
-                        is_suffix_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER) )
+                else if (this->is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
+                        this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) ||
+                        this->is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER) ||
+                        this->is_suffix_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER) )
                     {
                     if (text.length() >= 3 &&
                         stem<string_typeT>::get_rv() <= text.length()-3 &&
@@ -313,11 +313,11 @@ namespace stemming
                         is_either<wchar_t>(text[text.length()-3], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                         {
                         text.erase(text.end()-2, text.end() );
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         return;
                         }
                     }
-                else if (is_suffix_in_rv(text, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER) )
+                else if (this->is_suffix_in_rv(text, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER) )
                     {
                     if (text.length() >= 2 &&
                         stem<string_typeT>::get_rv() <= text.length()-2 &&
@@ -325,7 +325,7 @@ namespace stemming
                         is_either<wchar_t>(text[text.length()-2], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                         {
                         text.erase(text.end()-1, text.end() );
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         return;
                         }
                     }
@@ -333,18 +333,18 @@ namespace stemming
                 }
             //verb
             //group 2
-            else if (delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||/*4*/
-                delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) )
+            else if (this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||/*4*/
+                this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) )
                 {
                 return;
                 }
             //group 1
-            if (is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER) )
+            if (this->is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER) )
                 {
                 if (text.length() >= 4 &&
                     stem<string_typeT>::get_rv() <= text.length()-4 &&
@@ -352,50 +352,50 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-4], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                     {
                     text.erase(text.end()-3, text.end() );
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
             //group 2
-            else if (delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, false) ||                
-                delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||                
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||                
-                delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) )
+            else if (this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, false) ||                
+                this->delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||                
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, false) ||                
+                this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) )
                 {
                 return;
                 }
             //group 1
-            else if (is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||/*2*/
-                is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) )
+            else if (this->is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||/*2*/
+                this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) )
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
@@ -403,13 +403,13 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-3], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                     {
                     text.erase(text.end()-2, text.end() );
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
-            if (is_suffix_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER) ||/*1*/
-                is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER) ||
-                is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) )
+            if (this->is_suffix_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER) ||/*1*/
+                this->is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER) ||
+                this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) )
                 {
                 if (text.length() >= 2 &&
                     stem<string_typeT>::get_rv() <= text.length()-2 &&
@@ -417,83 +417,83 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-2], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                     {
                     text.erase(text.end()-1, text.end() );
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
 
             //noun
-            if (delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+            if (this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
                                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER,
                                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||                
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) )
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||                
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) )
                 { return; }
             }
         /**@htmlonly If the word ends with &#1080;, then remove it.@endhtmlonly*/
         void step_2(string_typeT& text)
-            { delete_if_is_in_rv(text, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER); }
+            { this->delete_if_is_in_rv(text, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER); }
         /**@htmlonly
            Search for a DERIVATIONAL (&#x043e;&#x0441;&#x0442;, &#x043e;&#x0441;&#x0442;&#x044c;)
            ending in R2 (i.e., the entire ending must lie in R2), and if one is found, then remove it.
            @endhtmlonly*/
         void step_3(string_typeT& text)
             {
-            if (is_suffix_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+            if (this->is_suffix_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
                                    RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                    RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER,
                                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) )
                 {
-                delete_if_is_in_r2(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+                this->delete_if_is_in_r2(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
                                    RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                    RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER,
                                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER);
                 }
-            else if (is_suffix_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+            else if (this->is_suffix_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
                                 RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                 RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER) )
                 {
-                delete_if_is_in_r2(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+                this->delete_if_is_in_r2(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
                                    RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                    RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER);
                 }
@@ -505,29 +505,29 @@ namespace stemming
            @endhtmlonly*/
         void step_4(string_typeT& text)
             {
-            if (is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER,
+            if (this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER,
                                 RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) )
                 {
                 text.erase(text.end()-1, text.end() );
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
-            else if (delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+            else if (this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
                                           RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER,
                                           RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                           RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER) ||
-                delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                this->delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
                                           RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER,
                                           RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER))
                 {
-                if (is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER,
+                if (this->is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER,
                                 RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) )
                     {
                     text.erase(text.end()-1, text.end() );
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 }
             else
-                { delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER); }
+                { this->delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER); }
             }
         };
     }

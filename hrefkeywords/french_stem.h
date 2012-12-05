@@ -47,12 +47,12 @@ namespace stemming
             m_step_1_successful = false;
             stem<string_typeT>::reset_r_values();
 
-            trim_western_punctuation(text);
-            hash_french_yui(text, FRENCH_VOWELS);
+            this->trim_western_punctuation(text);
+            this->hash_french_yui(text, FRENCH_VOWELS);
 
-            find_r1(text, FRENCH_VOWELS);
-            find_r2(text, FRENCH_VOWELS);
-            find_french_rv(text, FRENCH_VOWELS);
+            this->find_r1(text, FRENCH_VOWELS);
+            this->find_r2(text, FRENCH_VOWELS);
+            this->find_french_rv(text, FRENCH_VOWELS);
 
             size_t length = text.length();
             step_1(text);
@@ -71,17 +71,17 @@ namespace stemming
             step_5(text);
             step_6(text);
 
-            unhash_french_yui(text);
+            this->unhash_french_yui(text);
             }
     private:
         bool ic_to_iqu(string_typeT& text)
             {
-            if (is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) )
+            if (this->is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-2)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return true;
                     }
                 else
@@ -90,8 +90,8 @@ namespace stemming
                     text += L"iq";
                     text += LOWER_U_HASH;
                     //need to search for r2 again because the 'iq' added here may change that
-                    find_r2(text, FRENCH_VOWELS);
-                    find_french_rv(text, FRENCH_VOWELS);
+                    this->find_r2(text, FRENCH_VOWELS);
+                    this->find_french_rv(text, FRENCH_VOWELS);
                     return true;
                     }
                 }
@@ -158,7 +158,7 @@ namespace stemming
         void step_1(string_typeT& text)
             {
             size_t length = text.length();
-            if (is_suffix(text,/*issements*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S) )
+            if (this->is_suffix(text,/*issements*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 10 &&
                     stem<string_typeT>::get_r1() <= (text.length()-9) &&
@@ -169,7 +169,7 @@ namespace stemming
                     }
                 return;
                 }
-            else if (is_suffix(text,/*issement*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix(text,/*issement*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 9 &&
                     stem<string_typeT>::get_r1() <= (text.length()-8) &&
@@ -181,7 +181,7 @@ namespace stemming
                 return;
                 }
             //7
-            else if (delete_if_is_in_r2(text,/*atrices*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r2(text,/*atrices*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 if (length != text.length() )
                     {
@@ -191,37 +191,37 @@ namespace stemming
                 return;
                 }
             //6
-            else if (is_suffix(text,/*amment*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix(text,/*amment*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (stem<string_typeT>::get_rv() <= (text.length()-6) )
                     {
                     text.replace(text.end()-5, text.end(), L"nt");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
-            else if (is_suffix(text,/*emment*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix(text,/*emment*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (stem<string_typeT>::get_rv() <= (text.length()-6) )
                     {
                     text.replace(text.end()-5, text.end(), L"nt");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
-            else if (is_suffix(text,/*logies*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix(text,/*logies*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (stem<string_typeT>::get_r2() <= (text.length()-6) )
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     m_step_1_successful = true;
                     }
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*atrice*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_E, UPPER_E, false) ||
-                    delete_if_is_in_r2(text,/*ateurs*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_R, UPPER_R, LOWER_S, UPPER_S, false) ||
-                    delete_if_is_in_r2(text,/*ations*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r2(text,/*atrice*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_E, UPPER_E, false) ||
+                    this->delete_if_is_in_r2(text,/*ateurs*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_R, UPPER_R, LOWER_S, UPPER_S, false) ||
+                    this->delete_if_is_in_r2(text,/*ations*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
                 if (length != text.length() )
                     {
@@ -230,36 +230,36 @@ namespace stemming
                     }
                 return;
                 }
-            else if (is_suffix(text,/*usions*/LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) ||
-                    is_suffix(text,/*utions*/LOWER_U, UPPER_U, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
+            else if (this->is_suffix(text,/*usions*/LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) ||
+                    this->is_suffix(text,/*utions*/LOWER_U, UPPER_U, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
                 {
                 if (stem<string_typeT>::get_r2() <= (text.length()-6) )
                     {
                     text.erase(text.length()-5);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     m_step_1_successful = true;
                     }
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*ements*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ements*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S, false) )
                 {
-                if (delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V) )
+                if (this->delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V) )
                     {
-                    delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T);
+                    this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T);
                     }
-                else if (is_suffix(text,/*eus*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S) )
+                else if (this->is_suffix(text,/*eus*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-3)
                         {
                         text.erase(text.length()-3);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     else if (stem<string_typeT>::get_r1() <= text.length()-3)
                         {
                         text[text.length()-1] = LOWER_X;
                         }
                     }
-                else if (delete_if_is_in_r2(text,/*abl*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L) )
+                else if (this->delete_if_is_in_r2(text,/*abl*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L) )
                     {
                     //NOOP
                     }
@@ -271,13 +271,13 @@ namespace stemming
                     if (stem<string_typeT>::get_r2() <= text.length()-3)
                         {
                         text.erase(text.length()-3);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     }
-                else if (is_suffix_in_rv(text,/*i&#232;r*/LOWER_I, UPPER_I, LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R) )
+                else if (this->is_suffix_in_rv(text,/*i&#232;r*/LOWER_I, UPPER_I, LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R) )
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 else if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
@@ -286,7 +286,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
                     {
                     text.replace(text.end()-3, text.end(), L"i");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 if (length != text.length() )
                     {
@@ -295,8 +295,8 @@ namespace stemming
                 return;
                 }
             //5
-            else if (delete_if_is_in_r2(text,/*ateur*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_R, UPPER_R, false) ||
-                    delete_if_is_in_r2(text,/*ation*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, false) )
+            else if (this->delete_if_is_in_r2(text,/*ateur*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_R, UPPER_R, false) ||
+                    this->delete_if_is_in_r2(text,/*ation*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, false) )
                 {
                 if (length != text.length() )
                     {
@@ -305,31 +305,31 @@ namespace stemming
                     }
                 return;
                 }
-            else if (is_suffix(text,/*usion*/LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
-                    is_suffix(text,/*ution*/LOWER_U, UPPER_U, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) )
+            else if (this->is_suffix(text,/*usion*/LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
+                    this->is_suffix(text,/*ution*/LOWER_U, UPPER_U, LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) )
                 {
                 if (stem<string_typeT>::get_r2() <= (text.length()-5) )
                     {
                     text.erase(text.length()-4);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     m_step_1_successful = true;
                     }
                 return;
                 }
-            else if (is_suffix(text,/*ences*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix(text,/*ences*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (stem<string_typeT>::get_r2() <= (text.length()-5) )
                     {
                     text.replace(text.end()-3, text.end(), L"t");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     m_step_1_successful = true;
                     }
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*ables*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) ||
-                    delete_if_is_in_r2(text,/*istes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) ||
-                    delete_if_is_in_r2(text,/*ismes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) ||
-                    delete_if_is_in_r2(text,/*ances*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r2(text,/*ables*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) ||
+                    this->delete_if_is_in_r2(text,/*istes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) ||
+                    this->delete_if_is_in_r2(text,/*ismes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) ||
+                    this->delete_if_is_in_r2(text,/*ances*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 if (length != text.length() )
                     {
@@ -347,7 +347,7 @@ namespace stemming
                     if (stem<string_typeT>::get_r2() <= text.length()-5)
                         {
                         text.erase(text.length()-5);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     if (length != text.length() )
                         {
@@ -355,29 +355,29 @@ namespace stemming
                         }
                     return;
                     }
-            else if (is_suffix(text,/*logie*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I, UPPER_I, LOWER_E, UPPER_E) )
+            else if (this->is_suffix(text,/*logie*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I, UPPER_I, LOWER_E, UPPER_E) )
                 {
                 if (stem<string_typeT>::get_r2() <= (text.length()-5) )
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     m_step_1_successful = true;
                     }
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*ement*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_rv(text,/*ement*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
                 {
-                if (delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, false) )
+                if (this->delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, false) )
                     {
-                    delete_if_is_in_r2(text, /*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T);
+                    this->delete_if_is_in_r2(text, /*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T);
                     }
-                else if (is_suffix(text,/*eus*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S) )
+                else if (this->is_suffix(text,/*eus*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S) )
                     {
                     if (text.length() >= 3 &&
                         stem<string_typeT>::get_r2() <= text.length()-3)
                         {
                         text.erase(text.length()-3);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     else if (text.length() >= 3 &&
                         stem<string_typeT>::get_r1() <= text.length()-3)
@@ -385,7 +385,7 @@ namespace stemming
                         text[text.length()-1] = LOWER_X;
                         }
                     }
-                else if (delete_if_is_in_r2(text,/*abl*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L) )
+                else if (this->delete_if_is_in_r2(text,/*abl*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L) )
                     {
                     //NOOP
                     }
@@ -397,13 +397,13 @@ namespace stemming
                     if (stem<string_typeT>::get_r2() <= text.length()-3)
                         {
                         text.erase(text.length()-3);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     }
-                else if (is_suffix_in_rv(text,/*i&#232;r*/LOWER_I, UPPER_I, LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R) )
+                else if (this->is_suffix_in_rv(text,/*i&#232;r*/LOWER_I, UPPER_I, LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R) )
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 else if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
@@ -412,14 +412,14 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 if (length != text.length() )
                     {
                     m_step_1_successful = true;
                     }
                 }
-            else if (is_suffix(text,/*ments*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S) )
+            else if (this->is_suffix(text,/*ments*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S) )
                 {
                 //the proceeding vowel must also be n RV
                 if (text.length() >= 6 &&
@@ -427,41 +427,41 @@ namespace stemming
                     string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
-                    update_r_sections(text);    
+                    this->update_r_sections(text);    
                     }
                 return;
                 }
-            else if (is_suffix(text,/*euses*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix(text,/*euses*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-5)
                     {
                     text.erase(text.length()-5);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 else if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
                     text.replace(text.end()-3, text.end(), L"x");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 m_step_1_successful = true;
                 }
             //4
-            else if (is_suffix(text,/*euse*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_E, UPPER_E) )
+            else if (this->is_suffix(text,/*euse*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_S, UPPER_S, LOWER_E, UPPER_E) )
                 {
                 if (stem<string_typeT>::get_r2() <= text.length()-4)
                     {
                     text.erase(text.length()-4);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 else if (text.length() >= 4 &&
                     stem<string_typeT>::get_r1() <= text.length()-4)
                     {
                     text.replace(text.end()-2, text.end(), L"x");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 m_step_1_successful = true;
                 }
-            else if (is_suffix(text,/*ment*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix(text,/*ment*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 //the proceeding vowel must also be n RV
                 if (text.length() >= 5 &&
@@ -469,24 +469,24 @@ namespace stemming
                     string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
-                    update_r_sections(text);    
+                    this->update_r_sections(text);    
                     }
                 return;
                 }
-            else if (is_suffix(text,/*ence*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E) )
+            else if (this->is_suffix(text,/*ence*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E) )
                 {
                 if (stem<string_typeT>::get_r2() <= (text.length()-4) )
                     {
                     text.replace(text.end()-2, text.end(), L"t");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     m_step_1_successful = true;
                     }
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*ance*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E, false) ||
-                    delete_if_is_in_r2(text,/*isme*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_E, UPPER_E, false) ||
-                    delete_if_is_in_r2(text,/*able*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E, false) ||
-                    delete_if_is_in_r2(text,/*iste*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_r2(text,/*ance*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_E, UPPER_E, false) ||
+                    this->delete_if_is_in_r2(text,/*isme*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_E, UPPER_E, false) ||
+                    this->delete_if_is_in_r2(text,/*able*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_L, UPPER_L, LOWER_E, UPPER_E, false) ||
+                    this->delete_if_is_in_r2(text,/*iste*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
                 {
                 if (length != text.length() )
                     {
@@ -503,7 +503,7 @@ namespace stemming
                     if (stem<string_typeT>::get_r2() <= text.length()-4)
                         {
                         text.erase(text.length()-4);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     if (length != text.length() )
                         {
@@ -511,33 +511,33 @@ namespace stemming
                         }
                     return;
                     }
-            else if (is_suffix(text,/*eaux*/LOWER_E, UPPER_E, LOWER_A, UPPER_A, LOWER_U, UPPER_U, LOWER_X, UPPER_X) )
+            else if (this->is_suffix(text,/*eaux*/LOWER_E, UPPER_E, LOWER_A, UPPER_A, LOWER_U, UPPER_U, LOWER_X, UPPER_X) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 m_step_1_successful = true;
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*it&#233;s*/LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r2(text,/*it&#233;s*/LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_S, UPPER_S, false) )
                 {
-                if (is_suffix(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) )
+                if (this->is_suffix(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-4)
                         {
                         text.erase(text.length()-4);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     else
                         {
                         text.replace(text.end()-2, text.end(), L"l");
                         }
                     }
-                else if (is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) )
+                else if (this->is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-2)
                         {
                         text.erase(text.length()-2);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     else
                         {
@@ -545,13 +545,13 @@ namespace stemming
                         text += L"iq";
                         text += LOWER_U_HASH;
                         //need to search for r2 again because the 'iq' added here may change that
-                        find_r2(text, FRENCH_VOWELS);
-                        find_french_rv(text, FRENCH_VOWELS);
+                        this->find_r2(text, FRENCH_VOWELS);
+                        this->find_french_rv(text, FRENCH_VOWELS);
                         }
                     }
                 else
                     {
-                    delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V);
+                    this->delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V);
                     }
                 if (length != text.length() )
                     {
@@ -559,9 +559,9 @@ namespace stemming
                     }
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*ives*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r2(text,/*ives*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
-                if (delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
+                if (this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
                     {
                     ic_to_iqu(text);
                     }
@@ -572,26 +572,26 @@ namespace stemming
                 return;
                 }
             //3
-            else if (delete_if_is_in_r2(text,/*it&#233;*/LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_E_ACUTE, UPPER_E_ACUTE, false) )
+            else if (this->delete_if_is_in_r2(text,/*it&#233;*/LOWER_I, UPPER_I, LOWER_T, UPPER_T, LOWER_E_ACUTE, UPPER_E_ACUTE, false) )
                 {
-                if (is_suffix(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) )
+                if (this->is_suffix(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-4)
                         {
                         text.erase(text.length()-4);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     else
                         {
                         text.replace(text.end()-2, text.end(), L"l");
                         }
                     }
-                else if (is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) )
+                else if (this->is_suffix(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-2)
                         {
                         text.erase(text.length()-2);
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         }
                     else
                         {
@@ -599,13 +599,13 @@ namespace stemming
                         text += L"iq";
                         text += LOWER_U_HASH;
                         //need to search for r2 again because the 'iq' added here may change that
-                        find_r2(text, FRENCH_VOWELS);
-                        find_french_rv(text, FRENCH_VOWELS);
+                        this->find_r2(text, FRENCH_VOWELS);
+                        this->find_french_rv(text, FRENCH_VOWELS);
                         }
                     }
                 else
                     {
-                    delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V);
+                    this->delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V);
                     }
                 if (length != text.length() )
                     {
@@ -613,7 +613,7 @@ namespace stemming
                     }
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*eux*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_X, UPPER_X, false) )
+            else if (this->delete_if_is_in_r2(text,/*eux*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, LOWER_X, UPPER_X, false) )
                 {
                 if (length != text.length() )
                     {
@@ -621,20 +621,20 @@ namespace stemming
                     }
                 return;
                 }
-            else if (is_suffix(text,/*aux*/LOWER_A, UPPER_A, LOWER_U, UPPER_U, LOWER_X, UPPER_X) )
+            else if (this->is_suffix(text,/*aux*/LOWER_A, UPPER_A, LOWER_U, UPPER_U, LOWER_X, UPPER_X) )
                 {
                 if (stem<string_typeT>::get_r1() <= (text.length()-3) )
                     {
                     text.replace(text.end()-2, text.end(), L"l");
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     m_step_1_successful = true;
                     }
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*ive*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E, false) ||
-                    delete_if_is_in_r2(text,/*ifs*/LOWER_I, UPPER_I, LOWER_F, UPPER_F, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_r2(text,/*ive*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_E, UPPER_E, false) ||
+                    this->delete_if_is_in_r2(text,/*ifs*/LOWER_I, UPPER_I, LOWER_F, UPPER_F, LOWER_S, UPPER_S, false) )
                 {
-                if (delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false) )
+                if (this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false) )
                     {
                     ic_to_iqu(text);
                     }
@@ -645,9 +645,9 @@ namespace stemming
                 return;
                 }
             //2
-            else if (delete_if_is_in_r2(text,/*if*/LOWER_I, UPPER_I, LOWER_F, UPPER_F, false) )
+            else if (this->delete_if_is_in_r2(text,/*if*/LOWER_I, UPPER_I, LOWER_F, UPPER_F, false) )
                 {
-                if (delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false) )
+                if (this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false) )
                     {
                     ic_to_iqu(text);
                     }
@@ -691,7 +691,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issantes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*issantes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 9 &&
                     stem<string_typeT>::get_rv() <= (text.length()-9) &&
@@ -718,7 +718,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issante*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
+            else if (this->is_suffix_in_rv(text,/*issante*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
                 {
                 if (text.length() >= 8 &&
                     stem<string_typeT>::get_rv() <= (text.length()-8) &&
@@ -728,7 +728,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issants*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*issants*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 8 &&
                     stem<string_typeT>::get_rv() <= (text.length()-8) &&
@@ -738,7 +738,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issions*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*issions*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 8 &&
                     stem<string_typeT>::get_rv() <= (text.length()-8) &&
@@ -748,7 +748,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*irions*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*irions*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
@@ -758,7 +758,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issais*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*issais*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
@@ -768,7 +768,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issait*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text,/*issait*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
@@ -778,7 +778,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issant*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text,/*issant*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
@@ -788,7 +788,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issent*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text,/*issent*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
@@ -798,7 +798,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issiez*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
+            else if (this->is_suffix_in_rv(text,/*issiez*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
@@ -808,7 +808,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issons*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*issons*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
@@ -818,7 +818,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*irais*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*irais*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
@@ -828,7 +828,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*irait*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text,/*irait*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
@@ -838,7 +838,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*irent*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text,/*irent*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
@@ -848,7 +848,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*iriez*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
+            else if (this->is_suffix_in_rv(text,/*iriez*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
@@ -858,7 +858,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*irons*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*irons*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
@@ -868,7 +868,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*iront*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text,/*iront*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
@@ -878,7 +878,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*isses*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*isses*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
@@ -888,7 +888,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*issez*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
+            else if (this->is_suffix_in_rv(text,/*issez*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6)&&
@@ -898,7 +898,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*&#238;mes*/LOWER_I_CIRCUMFLEX, UPPER_I_CIRCUMFLEX, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*&#238;mes*/LOWER_I_CIRCUMFLEX, UPPER_I_CIRCUMFLEX, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
@@ -908,7 +908,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*&#238;tes*/LOWER_I_CIRCUMFLEX, UPPER_I_CIRCUMFLEX, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*&#238;tes*/LOWER_I_CIRCUMFLEX, UPPER_I_CIRCUMFLEX, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
@@ -918,7 +918,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*irai*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I) )
+            else if (this->is_suffix_in_rv(text,/*irai*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I) )
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
@@ -928,7 +928,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*iras*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*iras*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
@@ -938,7 +938,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*irez*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
+            else if (this->is_suffix_in_rv(text,/*irez*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z) )
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
@@ -948,7 +948,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*isse*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E) )
+            else if (this->is_suffix_in_rv(text,/*isse*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E) )
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
@@ -958,7 +958,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*ies*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*ies*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 4 &&
                     stem<string_typeT>::get_rv() <= (text.length()-4) &&
@@ -968,7 +968,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*ira*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A) )
+            else if (this->is_suffix_in_rv(text,/*ira*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A) )
                 {
                 if (text.length() >= 4 &&
                     stem<string_typeT>::get_rv() <= (text.length()-4) &&
@@ -978,7 +978,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text, LOWER_I_CIRCUMFLEX, UPPER_I_CIRCUMFLEX, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text, LOWER_I_CIRCUMFLEX, UPPER_I_CIRCUMFLEX, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
@@ -988,7 +988,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*ie*/LOWER_I, UPPER_I, LOWER_E, UPPER_E) )
+            else if (this->is_suffix_in_rv(text,/*ie*/LOWER_I, UPPER_I, LOWER_E, UPPER_E) )
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
@@ -998,7 +998,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*ir*/LOWER_I, UPPER_I, LOWER_R, UPPER_R) )
+            else if (this->is_suffix_in_rv(text,/*ir*/LOWER_I, UPPER_I, LOWER_R, UPPER_R) )
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
@@ -1008,7 +1008,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*is*/LOWER_I, UPPER_I, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_rv(text,/*is*/LOWER_I, UPPER_I, LOWER_S, UPPER_S) )
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
@@ -1018,7 +1018,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text,/*it*/LOWER_I, UPPER_I, LOWER_T, UPPER_T) )
+            else if (this->is_suffix_in_rv(text,/*it*/LOWER_I, UPPER_I, LOWER_T, UPPER_T) )
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
@@ -1028,7 +1028,7 @@ namespace stemming
                     return;
                     }
                 }
-            else if (is_suffix_in_rv(text, LOWER_I, UPPER_I) )
+            else if (this->is_suffix_in_rv(text, LOWER_I, UPPER_I) )
                 {
                 if (text.length() >= 2 &&
                     stem<string_typeT>::get_rv() <= (text.length()-2) &&
@@ -1060,19 +1060,19 @@ namespace stemming
         //---------------------------------------------
         void step_2b(string_typeT& text)
             {
-            if (delete_if_is_in_rv(text,/*assions*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            if (this->delete_if_is_in_rv(text,/*assions*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*assent*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_rv(text,/*assent*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
                 {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*assiez*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
+            else if (this->delete_if_is_in_rv(text,/*assiez*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
                 {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
                 return;
                 }
             else if (text.length() >= 7 &&
@@ -1088,7 +1088,7 @@ namespace stemming
                 text.erase(text.length()-7);
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*erions*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*erions*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
@@ -1101,149 +1101,149 @@ namespace stemming
                 is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 text.erase(text.length()-5);
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*antes*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*antes*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*asses*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*asses*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*&#232;rent*/LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
-                {
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*erais*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#232;rent*/LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*erait*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_rv(text,/*erais*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*eriez*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
+            else if (this->delete_if_is_in_rv(text,/*erait*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*erons*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*eriez*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*eront*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
+            else if (this->delete_if_is_in_rv(text,/*erons*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (is_suffix_in_r1(text,/*ions*/LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) &&
-                delete_if_is_in_r2(text,/*ions*/LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_rv(text,/*eront*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*&#226;mes*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*&#226;tes*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*ante*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*ants*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*asse*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*erai*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, false) )
+            else if (this->is_suffix_in_r1(text,/*ions*/LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) &&
+                this->delete_if_is_in_r2(text,/*ions*/LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_S, UPPER_S) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*eras*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#226;mes*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*&#226;tes*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*ante*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*ants*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_S, UPPER_S, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*asse*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*erai*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_I, UPPER_I, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*erez*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
+            else if (this->delete_if_is_in_rv(text,/*eras*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*ais*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*ait*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*ant*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*&#233;es*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*erez*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*era*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ais*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*ait*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_T, UPPER_T, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*ant*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*&#233;es*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*iez*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
+            else if (this->delete_if_is_in_rv(text,/*era*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*&#226;t*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_T, UPPER_T, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*ai*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, false) )
-                {
-                delete_if_is_in_rv(text,LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*as*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
-                {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
-                return;
-                }
-            else if (delete_if_is_in_rv(text,/*&#233;e*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_rv(text,/*iez*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*&#233;s*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#226;t*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_T, UPPER_T, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*ai*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, false) )
+                {
+                this->delete_if_is_in_rv(text,LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*as*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*&#233;e*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_E, UPPER_E, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#233;s*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_S, UPPER_S, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*ez*/LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
+            else if (this->delete_if_is_in_rv(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ez*/LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, false) )
                 {
-                delete_if_is_in_rv(text, LOWER_E, UPPER_E);
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*&#233;*/LOWER_E_ACUTE, UPPER_E_ACUTE, false) )
+            else if (this->delete_if_is_in_rv(text, LOWER_A, UPPER_A, false) )
+                {
+                this->delete_if_is_in_rv(text, LOWER_E, UPPER_E);
+                return;
+                }
+            else if (this->delete_if_is_in_rv(text,/*&#233;*/LOWER_E_ACUTE, UPPER_E_ACUTE, false) )
                 {
                 return;
                 }
@@ -1306,13 +1306,13 @@ namespace stemming
                 !string_util::is_one_of(text[text.length()-2], FRENCH_AIOUES) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
 
-            if (is_suffix_in_rv(text,/*i&#232;re*/LOWER_I, UPPER_I, LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R, LOWER_E, UPPER_E) )
+            if (this->is_suffix_in_rv(text,/*i&#232;re*/LOWER_I, UPPER_I, LOWER_E_GRAVE, UPPER_E_GRAVE, LOWER_R, UPPER_R, LOWER_E, UPPER_E) )
                 {
                 text.replace(text.end()-4, text.end(), L"i");
-                update_r_sections(text);
+                this->update_r_sections(text);
                 return;
                 }
             else if (text.length() >= 4 &&
@@ -1323,13 +1323,13 @@ namespace stemming
                 is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 text.replace(text.end()-4, text.end(), L"i");
-                update_r_sections(text);
+                this->update_r_sections(text);
                 return;
                 }
-            else if (is_suffix_in_rv(text,/*ier*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_R, UPPER_R) )
+            else if (this->is_suffix_in_rv(text,/*ier*/LOWER_I, UPPER_I, LOWER_E, UPPER_E, LOWER_R, UPPER_R) )
                 {
                 text.replace(text.end()-3, text.end(), L"i");
-                update_r_sections(text);
+                this->update_r_sections(text);
                 return;
                 }
             else if (text.length() >= 3 &&
@@ -1339,21 +1339,21 @@ namespace stemming
                 is_either<wchar_t>(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 text.replace(text.end()-3, text.end(), L"i");
-                update_r_sections(text);
+                this->update_r_sections(text);
                 return;
                 }
-            else if (is_suffix_in_rv(text,/*sion*/LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
-                is_suffix_in_rv(text,/*tion*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) )
+            else if (this->is_suffix_in_rv(text,/*sion*/LOWER_S, UPPER_S, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) ||
+                this->is_suffix_in_rv(text,/*tion*/LOWER_T, UPPER_T, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N) )
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_r2() <= text.length()-3)
                     {
                     text.erase(text.length()-3);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
-            else if (is_suffix_in_rv(text,/*&#235;*/LOWER_E_UMLAUTS, UPPER_E_UMLAUTS) )
+            else if (this->is_suffix_in_rv(text,/*&#235;*/LOWER_E_UMLAUTS, UPPER_E_UMLAUTS) )
                 {
                 if (text.length() >= 3 &&
                     (is_either<wchar_t>(text[text.length()-3], LOWER_G, UPPER_G) &&
@@ -1363,7 +1363,7 @@ namespace stemming
                     }
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_E, UPPER_E) )
+            else if (this->delete_if_is_in_rv(text, LOWER_E, UPPER_E) )
                 {
                 return;
                 }
@@ -1372,14 +1372,14 @@ namespace stemming
         //---------------------------------------------
         void step_5(string_typeT& text)
             {
-            if (is_suffix(text,/*enn*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_N, UPPER_N) ||
-                is_suffix(text,/*onn*/LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_N, UPPER_N) ||
-                is_suffix(text,/*ett*/LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_T, UPPER_T) ||
-                is_suffix(text,/*ell*/LOWER_E, UPPER_E, LOWER_L, UPPER_L, LOWER_L, UPPER_L) ||
-                is_suffix(text,/*eill*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_L, UPPER_L, LOWER_L, UPPER_L) )
+            if (this->is_suffix(text,/*enn*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_N, UPPER_N) ||
+                this->is_suffix(text,/*onn*/LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_N, UPPER_N) ||
+                this->is_suffix(text,/*ett*/LOWER_E, UPPER_E, LOWER_T, UPPER_T, LOWER_T, UPPER_T) ||
+                this->is_suffix(text,/*ell*/LOWER_E, UPPER_E, LOWER_L, UPPER_L, LOWER_L, UPPER_L) ||
+                this->is_suffix(text,/*eill*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_L, UPPER_L, LOWER_L, UPPER_L) )
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
             }
         /**@htmlonly

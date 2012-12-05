@@ -3,3 +3,26 @@ This is a fork of TeXpp is a library for parsing TeX documents into a document t
 Original project could be find here: http://code.google.com/p/texpp/
 
 This fork was created because the original project is no longer supported.
+
+INSTALL
+
+Requirements:
+gcc cmake libboost-dev libboost-filesystem-dev libboost-regex-dev libboost-python-dev libboost-test-dev libicu-dev
+
+For Linux environment:
+#chekout
+git clone git://github.com/graphite/texpp.git
+#build
+cd texpp
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+
+#install
+vim /etc/ld.so.conf.d/texpp.conf # New file
+# Add /opt/texpp to this file, save
+sudo ldconfig
+
+For Mac environment before build you need to apply patch:
+patch -p1 -i texpp.mac.patch

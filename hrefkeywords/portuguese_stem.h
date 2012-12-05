@@ -52,7 +52,7 @@ namespace stemming
                 {
                 return;
                 }
-            trim_western_punctuation(text);
+            this->trim_western_punctuation(text);
 
             //reset internal data
             m_altered_suffix_index = 0;
@@ -64,9 +64,9 @@ namespace stemming
             string_util::replace_all<string_typeT>(text, string_typeT(1, LOWER_O_TILDE), L"o~");
             string_util::replace_all<string_typeT>(text, string_typeT(1, UPPER_O_TILDE), L"O~");
 
-            find_r1(text, PORTUGUESE_VOWELS);
-            find_r2(text, PORTUGUESE_VOWELS);
-            find_spanish_rv(text, PORTUGUESE_VOWELS);
+            this->find_r1(text, PORTUGUESE_VOWELS);
+            this->find_r2(text, PORTUGUESE_VOWELS);
+            this->find_spanish_rv(text, PORTUGUESE_VOWELS);
 
             step_1(text);
             //intermediate steps handled by step 1
@@ -124,260 +124,260 @@ namespace stemming
         void step_1(string_typeT& text)
             {
             size_t original_length = text.length();
-            if (is_suffix_in_r2(text,/*uciones*/LOWER_U, UPPER_U, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            if (this->is_suffix_in_r2(text,/*uciones*/LOWER_U, UPPER_U, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_O, UPPER_O, LOWER_N, UPPER_N, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 text.erase(text.length()-6);
                 m_altered_suffix_index = text.length()-1;
-                update_r_sections(text);
+                this->update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*amentos*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*amentos*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*imentos*/LOWER_I, UPPER_I, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*imentos*/LOWER_I, UPPER_I, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*amento*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_r2(text,/*amento*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*imento*/LOWER_I, UPPER_I, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_r2(text,/*imento*/LOWER_I, UPPER_I, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_O, UPPER_O) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*adoras*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*adoras*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*adores*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*adores*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*a&#231;o~es*/LOWER_A, UPPER_A, LOWER_C_CEDILLA, UPPER_C_CEDILLA, LOWER_O, UPPER_O, TILDE, TILDE, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*a&#231;o~es*/LOWER_A, UPPER_A, LOWER_C_CEDILLA, UPPER_C_CEDILLA, LOWER_O, UPPER_O, TILDE, TILDE, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (is_suffix_in_r2(text,/*&#234;ncias*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_r2(text,/*&#234;ncias*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 text.replace(text.end()-6, text.end(), L"ente");
                 m_altered_suffix_index = text.length()-4;
-                update_r_sections(text);
+                this->update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }
-            else if (is_suffix_in_r2(text,/*log&#237;as*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->is_suffix_in_r2(text,/*log&#237;as*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 text.erase(text.length()-3);
                 m_altered_suffix_index = text.length()-3;
-                update_r_sections(text);
+                this->update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r1(text,/*amente*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
+            else if (this->delete_if_is_in_r1(text,/*amente*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
                 {
-                if (delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, false) )
+                if (this->delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, false) )
                     {
-                    delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false);
+                    this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T, false);
                     }
                 else
                     {
-                    if (delete_if_is_in_r2(text,/*os*/LOWER_O, UPPER_O, LOWER_S, UPPER_S) ||
-                        delete_if_is_in_r2(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) ||
-                        delete_if_is_in_r2(text,/*ad*/LOWER_A, UPPER_A, LOWER_D, UPPER_D) )
+                    if (this->delete_if_is_in_r2(text,/*os*/LOWER_O, UPPER_O, LOWER_S, UPPER_S) ||
+                        this->delete_if_is_in_r2(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) ||
+                        this->delete_if_is_in_r2(text,/*ad*/LOWER_A, UPPER_A, LOWER_D, UPPER_D) )
                         {
                         //NOOP (fall through to branching statement)
                         }
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*idades*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*idades*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
-                if (delete_if_is_in_r2(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) ||
-                    delete_if_is_in_r2(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) ||
-                    delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V) )
+                if (this->delete_if_is_in_r2(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) ||
+                    this->delete_if_is_in_r2(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) ||
+                    this->delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V) )
                     {
                     //NOOP (fall through to branching statement)
                     }
                 //NOOP (fall through to branching statement)
                 }    
-            else if (is_suffix_in_r2(text,/*log&#237;a*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A) )
+            else if (this->is_suffix_in_r2(text,/*log&#237;a*/LOWER_L, UPPER_L, LOWER_O, UPPER_O, LOWER_G, UPPER_G, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A) )
                 {
                 text.erase(text.length()-2);
                 m_altered_suffix_index = text.length()-3;
-                update_r_sections(text);
+                this->update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }    
-            else if (is_suffix_in_r2(text,/*uci&#243;n*/LOWER_U, UPPER_U, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_O_ACUTE, UPPER_O_ACUTE, LOWER_N, UPPER_N) )
+            else if (this->is_suffix_in_r2(text,/*uci&#243;n*/LOWER_U, UPPER_U, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_O_ACUTE, UPPER_O_ACUTE, LOWER_N, UPPER_N) )
                 {
                 text.erase(text.length()-4);
                 m_altered_suffix_index = text.length()-1;
-                update_r_sections(text);
+                this->update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }
-            else if (is_suffix_in_r2(text,/*&#234;ncia*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_A, UPPER_A) )
+            else if (this->is_suffix_in_r2(text,/*&#234;ncia*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_A, UPPER_A) )
                 {
                 text.replace(text.end()-5, text.end(), L"ente");
                 m_altered_suffix_index = text.length()-4;
-                update_r_sections(text);
+                this->update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*mente*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
+            else if (this->delete_if_is_in_r2(text,/*mente*/LOWER_M, UPPER_M, LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
                 {
-                if (delete_if_is_in_r2(text,/*ante*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) ||
-                    delete_if_is_in_r2(text,/*avel*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) ||
-                    delete_if_is_in_r2(text,/*&#237;vel*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) )
+                if (this->delete_if_is_in_r2(text,/*ante*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) ||
+                    this->delete_if_is_in_r2(text,/*avel*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) ||
+                    this->delete_if_is_in_r2(text,/*&#237;vel*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) )
                     {
                     //NOOP (fall through to branching statement)
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*idade*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E) )
+            else if (this->delete_if_is_in_r2(text,/*idade*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_E, UPPER_E) )
                 {
-                if (delete_if_is_in_r2(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) ||
-                    delete_if_is_in_r2(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) ||
-                    delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V) )
+                if (this->delete_if_is_in_r2(text,/*abil*/LOWER_A, UPPER_A, LOWER_B, UPPER_B, LOWER_I, UPPER_I, LOWER_L, UPPER_L) ||
+                    this->delete_if_is_in_r2(text,/*ic*/LOWER_I, UPPER_I, LOWER_C, UPPER_C) ||
+                    this->delete_if_is_in_r2(text,/*iv*/LOWER_I, UPPER_I, LOWER_V, UPPER_V) )
                     {
                     //NOOP (fall through to branching statement)
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (is_suffix(text,/*eiras*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->is_suffix(text,/*eiras*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 if (stem<string_typeT>::get_rv() <= text.length()-4)
                     {
                     text.erase(text.length()-2);
                     m_altered_suffix_index = text.length()-3;
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*antes*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*antes*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*&#226;ncia*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_r2(text,/*&#226;ncia*/LOWER_A_CIRCUMFLEX, UPPER_A_CIRCUMFLEX, LOWER_N, UPPER_N, LOWER_C, UPPER_C, LOWER_I, UPPER_I, LOWER_A, UPPER_A) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ismos*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*ismos*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*istas*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*istas*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*adora*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_r2(text,/*adora*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R, LOWER_A, UPPER_A) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*a&#231;a~o*/LOWER_A, UPPER_A, LOWER_C_CEDILLA, UPPER_C_CEDILLA, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_r2(text,/*a&#231;a~o*/LOWER_A, UPPER_A, LOWER_C_CEDILLA, UPPER_C_CEDILLA, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ante*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
+            else if (this->delete_if_is_in_r2(text,/*ante*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_T, UPPER_T, LOWER_E, UPPER_E) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ezas*/LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*ezas*/LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*icos*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*icos*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*icas*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*icas*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ismo*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_r2(text,/*ismo*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_M, UPPER_M, LOWER_O, UPPER_O) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*&#225;vel*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) )
+            else if (this->delete_if_is_in_r2(text,/*&#225;vel*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*&#237;vel*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) )
+            else if (this->delete_if_is_in_r2(text,/*&#237;vel*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_L, UPPER_L) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ista*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_r2(text,/*ista*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_A, UPPER_A) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*osos*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*osos*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*osas*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*osas*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ador*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R) )
+            else if (this->delete_if_is_in_r2(text,/*ador*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_R, UPPER_R) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ivas*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*ivas*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_S, UPPER_S) )
                 {
-                if (delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
+                if (this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
                     {
                     //NOOP (fall through to branching statement)
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ivos*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
+            else if (this->delete_if_is_in_r2(text,/*ivos*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
                 {
-                if (delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
+                if (this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
                     {
                     //NOOP (fall through to branching statement)
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (is_suffix(text,/*eira*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A) )
+            else if (this->is_suffix(text,/*eira*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A) )
                 {
                 if (stem<string_typeT>::get_rv() <= text.length()-3)
                     {
                     text.erase(text.length()-1);
                     m_altered_suffix_index = text.length()-3;
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*iva*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_r2(text,/*iva*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_A, UPPER_A) )
                 {
-                if (delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
+                if (this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
                     {
                     //NOOP (fall through to branching statement)
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ivo*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_r2(text,/*ivo*/LOWER_I, UPPER_I, LOWER_V, UPPER_V, LOWER_O, UPPER_O) )
                 {
-                if (delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
+                if (this->delete_if_is_in_r2(text,/*at*/LOWER_A, UPPER_A, LOWER_T, UPPER_T) )
                     {
                     //NOOP (fall through to branching statement)
                     }
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*eza*/LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_r2(text,/*eza*/LOWER_E, UPPER_E, LOWER_Z, UPPER_Z, LOWER_A, UPPER_A) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ico*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_r2(text,/*ico*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_O, UPPER_O) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*ica*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_r2(text,/*ica*/LOWER_I, UPPER_I, LOWER_C, UPPER_C, LOWER_A, UPPER_A) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*oso*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_r2(text,/*oso*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_O, UPPER_O) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_r2(text,/*osa*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_r2(text,/*osa*/LOWER_O, UPPER_O, LOWER_S, UPPER_S, LOWER_A, UPPER_A) )
                 {
                 //NOOP (fall through to branching statement)
                 }
@@ -412,483 +412,483 @@ namespace stemming
             {
             size_t original_length = text.length();
 
-            if (delete_if_is_in_rv(text,/*ar&#237;amos*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            if (this->delete_if_is_in_rv(text,/*ar&#237;amos*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*er&#237;amos*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*er&#237;amos*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ir&#237;amos*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ir&#237;amos*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#225;ssemos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#225;ssemos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#234;ssemos*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#234;ssemos*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#237;ssemos*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#237;ssemos*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ar&#237;eis*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ar&#237;eis*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*er&#237;eis*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*er&#237;eis*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ir&#237;eis*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ir&#237;eis*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#225;sseis*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#225;sseis*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#233;sseis*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#233;sseis*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#237;sseis*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#237;sseis*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#225;ramos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#225;ramos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#233;ramos*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#233;ramos*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#237;ramos*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#237;ramos*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#225;vamos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#225;vamos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*aremos*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*aremos*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eremos*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*eremos*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iremos*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S ,false) )
+            else if (this->delete_if_is_in_rv(text,/*iremos*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S ,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ariam*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*ariam*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eriam*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*eriam*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iriam*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*iriam*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*assem*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*assem*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*essem*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*essem*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*issem*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M,false) )
+            else if (this->delete_if_is_in_rv(text,/*issem*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_M, UPPER_M,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ara~o*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O,false) )
+            else if (this->delete_if_is_in_rv(text,/*ara~o*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*era~o*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O,false) )
+            else if (this->delete_if_is_in_rv(text,/*era~o*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ira~o*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O,false) )
+            else if (this->delete_if_is_in_rv(text,/*ira~o*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, TILDE, TILDE, LOWER_O, UPPER_O,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*arias*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*arias*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*erias*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*erias*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*irias*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*irias*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ardes*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*ardes*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*erdes*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*erdes*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*irdes*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*irdes*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*asses*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*asses*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*esses*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*esses*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*isses*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*isses*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*astes*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*astes*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*estes*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*estes*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*istes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*istes*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#225;reis*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*&#225;reis*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*areis*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*areis*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#233;reis*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*&#233;reis*/LOWER_E_ACUTE, UPPER_E_ACUTE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ereis*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*ereis*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#237;reis*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*&#237;reis*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ireis*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*ireis*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#225;veis*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*&#225;veis*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_V, UPPER_V, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#237;amos*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*&#237;amos*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*armos*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*armos*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ermos*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*ermos*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*irmos*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
+            else if (this->delete_if_is_in_rv(text,/*irmos*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S,false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*aria*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*aria*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eria*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*eria*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iria*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*iria*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*asse*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_rv(text,/*asse*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*esse*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_rv(text,/*esse*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*isse*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_rv(text,/*isse*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_S, UPPER_S, LOWER_E, UPPER_E, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*aste*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_rv(text,/*aste*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*este*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_rv(text,/*este*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iste*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
+            else if (this->delete_if_is_in_rv(text,/*iste*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, LOWER_T, UPPER_T, LOWER_E, UPPER_E, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*arei*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
+            else if (this->delete_if_is_in_rv(text,/*arei*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*erei*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
+            else if (this->delete_if_is_in_rv(text,/*erei*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*irei*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
+            else if (this->delete_if_is_in_rv(text,/*irei*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*aram*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*aram*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eram*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*eram*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iram*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*iram*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*avam*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*avam*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*arem*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*arem*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*erem*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*erem*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*irem*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*irem*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ando*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
+            else if (this->delete_if_is_in_rv(text,/*ando*/LOWER_A, UPPER_A, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*endo*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
+            else if (this->delete_if_is_in_rv(text,/*endo*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*indo*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
+            else if (this->delete_if_is_in_rv(text,/*indo*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*adas*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*adas*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*idas*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*idas*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ar&#225;s*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ar&#225;s*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*aras*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*aras*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*er&#225;s*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*er&#225;s*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eras*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*eras*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ir&#225;s*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ir&#225;s*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*avas*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*avas*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ares*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ares*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eres*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*eres*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ires*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ires*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#237;eis*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#237;eis*/LOWER_I_ACUTE, UPPER_I_ACUTE, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ados*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ados*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*idos*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*idos*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*&#225;mos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#225;mos*/LOWER_A_ACUTE, UPPER_A_ACUTE, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*amos*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*amos*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*emos*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*emos*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*imos*/LOWER_I, UPPER_I, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*imos*/LOWER_I, UPPER_I, LOWER_M, UPPER_M, LOWER_O, UPPER_O, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iras*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*iras*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ada*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ada*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ida*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ida*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ar&#225;*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, false) )
+            else if (this->delete_if_is_in_rv(text,/*ar&#225;*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ara*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ara*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*er&#225;*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, false) )
+            else if (this->delete_if_is_in_rv(text,/*er&#225;*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*era*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*era*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ir&#225;*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, false) )
+            else if (this->delete_if_is_in_rv(text,/*ir&#225;*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A_ACUTE, UPPER_A_ACUTE, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ava*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ava*/LOWER_A, UPPER_A, LOWER_V, UPPER_V, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iam*/LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*iam*/LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ado*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
+            else if (this->delete_if_is_in_rv(text,/*ado*/LOWER_A, UPPER_A, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ido*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
+            else if (this->delete_if_is_in_rv(text,/*ido*/LOWER_I, UPPER_I, LOWER_D, UPPER_D, LOWER_O, UPPER_O, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ias*/LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ias*/LOWER_I, UPPER_I, LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ais*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*ais*/LOWER_A, UPPER_A, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eis*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*eis*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ira*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ira*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ia*/LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
+            else if (this->delete_if_is_in_rv(text,/*ia*/LOWER_I, UPPER_I, LOWER_A, UPPER_A, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ei*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
+            else if (this->delete_if_is_in_rv(text,/*ei*/LOWER_E, UPPER_E, LOWER_I, UPPER_I, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*am*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*am*/LOWER_A, UPPER_A, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*em*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
+            else if (this->delete_if_is_in_rv(text,/*em*/LOWER_E, UPPER_E, LOWER_M, UPPER_M, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ar*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_rv(text,/*ar*/LOWER_A, UPPER_A, LOWER_R, UPPER_R, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_rv(text,/*er*/LOWER_E, UPPER_E, LOWER_R, UPPER_R, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ir*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, false) )
+            else if (this->delete_if_is_in_rv(text,/*ir*/LOWER_I, UPPER_I, LOWER_R, UPPER_R, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*as*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*as*/LOWER_A, UPPER_A, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*es*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*es*/LOWER_E, UPPER_E, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*is*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
+            else if (this->delete_if_is_in_rv(text,/*is*/LOWER_I, UPPER_I, LOWER_S, UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*eu*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, false) )
+            else if (this->delete_if_is_in_rv(text,/*eu*/LOWER_E, UPPER_E, LOWER_U, UPPER_U, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*iu*/LOWER_I, UPPER_I, LOWER_U, UPPER_U, false) )
+            else if (this->delete_if_is_in_rv(text,/*iu*/LOWER_I, UPPER_I, LOWER_U, UPPER_U, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
-            else if (delete_if_is_in_rv(text,/*ou*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, false) )
+            else if (this->delete_if_is_in_rv(text,/*ou*/LOWER_O, UPPER_O, LOWER_U, UPPER_U, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
@@ -903,11 +903,11 @@ namespace stemming
         //---------------------------------------------
         void step_3(string_typeT& text) 
             {
-            if (is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I) &&
+            if (this->is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I) &&
                 stem<string_typeT>::get_rv() <= text.length()-1)
                 {
                 text.erase(text.length()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
             }
         /**\htmlonly
@@ -921,31 +921,31 @@ namespace stemming
         //---------------------------------------------
         void step_4(string_typeT& text) 
             {
-            if (delete_if_is_in_rv(text,/*os*/LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
+            if (this->delete_if_is_in_rv(text,/*os*/LOWER_O, UPPER_O, LOWER_S, UPPER_S) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_A, UPPER_A) )
+            else if (this->delete_if_is_in_rv(text, LOWER_A, UPPER_A) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_I, UPPER_I) )
+            else if (this->delete_if_is_in_rv(text, LOWER_I, UPPER_I) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_O, UPPER_O) )
+            else if (this->delete_if_is_in_rv(text, LOWER_O, UPPER_O) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_A_ACUTE, UPPER_A_ACUTE) )
+            else if (this->delete_if_is_in_rv(text, LOWER_A_ACUTE, UPPER_A_ACUTE) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_I_ACUTE, UPPER_I_ACUTE) )
+            else if (this->delete_if_is_in_rv(text, LOWER_I_ACUTE, UPPER_I_ACUTE) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_rv(text, LOWER_O_ACUTE, UPPER_O_ACUTE) )
+            else if (this->delete_if_is_in_rv(text, LOWER_O_ACUTE, UPPER_O_ACUTE) )
                 {
                 return;
                 }
@@ -962,39 +962,39 @@ namespace stemming
         //---------------------------------------------
         void step_5(string_typeT& text) 
             {
-            if (delete_if_is_in_rv(text, LOWER_E, UPPER_E, false) )
+            if (this->delete_if_is_in_rv(text, LOWER_E, UPPER_E, false) )
                 {
                 if (text.length() >= 1 &&
                     stem<string_typeT>::get_rv() <= text.length()-1 &&
-                    (is_suffix(text,/*gu*/LOWER_G, UPPER_G, LOWER_U, UPPER_U) ||
-                    is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I)) )
+                    (this->is_suffix(text,/*gu*/LOWER_G, UPPER_G, LOWER_U, UPPER_U) ||
+                    this->is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I)) )
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*&#233;*/LOWER_E_ACUTE, UPPER_E_ACUTE, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#233;*/LOWER_E_ACUTE, UPPER_E_ACUTE, false) )
                 {
                 if (text.length() >= 1 &&
                     stem<string_typeT>::get_rv() <= text.length()-1 &&
-                    (is_suffix(text,/*gu*/LOWER_G, UPPER_G, LOWER_U, UPPER_U) ||
-                    is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I)) )
+                    (this->is_suffix(text,/*gu*/LOWER_G, UPPER_G, LOWER_U, UPPER_U) ||
+                    this->is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I)) )
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
-            else if (delete_if_is_in_rv(text,/*&#234;*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, false) )
+            else if (this->delete_if_is_in_rv(text,/*&#234;*/LOWER_E_CIRCUMFLEX, UPPER_E_CIRCUMFLEX, false) )
                 {
                 if (text.length() >= 1 &&
                     stem<string_typeT>::get_rv() <= text.length()-1 &&
-                    (is_suffix(text,/*gu*/LOWER_G, UPPER_G, LOWER_U, UPPER_U) ||
-                    is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I)) )
+                    (this->is_suffix(text,/*gu*/LOWER_G, UPPER_G, LOWER_U, UPPER_U) ||
+                    this->is_suffix(text,/*ci*/LOWER_C, UPPER_C, LOWER_I, UPPER_I)) )
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }

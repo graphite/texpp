@@ -34,8 +34,8 @@ namespace stemming
         void operator()(string_typeT& text)
             {
             //First, remove all umlaut and acute accents
-            remove_dutch_umlauts(text);
-            remove_dutch_acutes(text);
+            this->remove_dutch_umlauts(text);
+            this->remove_dutch_acutes(text);
 
             if (text.length() < 3)
                 {
@@ -46,13 +46,13 @@ namespace stemming
             m_step_2_succeeded = false;
             stem<string_typeT>::reset_r_values();
 
-            trim_western_punctuation(text);
+            this->trim_western_punctuation(text);
 
             //Hash initial y, y after a vowel, and i between vowels
-            hash_dutch_yi(text, DUTCH_VOWELS);
+            this->hash_dutch_yi(text, DUTCH_VOWELS);
 
-            find_r1(text, DUTCH_VOWELS);
-            find_r2(text, DUTCH_VOWELS);
+            this->find_r1(text, DUTCH_VOWELS);
+            this->find_r2(text, DUTCH_VOWELS);
             //R1 must have at least 3 characters in front of it
             if (stem<string_typeT>::get_r1() < 3)
                 {
@@ -66,7 +66,7 @@ namespace stemming
             step_4(text);
 
             //unhash I and Y back into their original form 
-            unhash_dutch_yi(text);
+            this->unhash_dutch_yi(text);
             }
     private:
         /**Step 1:
@@ -83,18 +83,18 @@ namespace stemming
         //---------------------------------------------
         void step_1(string_typeT& text)
             {
-            if (is_suffix(text,/*heden*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_N, UPPER_N) )
+            if (this->is_suffix(text,/*heden*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_D, UPPER_D, LOWER_E, UPPER_E, LOWER_N, UPPER_N) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     text[text.length()-2] = LOWER_I;
                     text[text.length()-1] = LOWER_D;
                     }
                 }
             ///Define a valid en-ending as a non-vowel, and not gem.
-            else if (is_suffix(text,/*ene*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_E, UPPER_E)    )
+            else if (this->is_suffix(text,/*ene*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_E, UPPER_E)    )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-3 &&
                     !string_util::is_one_of(text[text.length()-4], DUTCH_VOWELS) &&
@@ -111,11 +111,11 @@ namespace stemming
                         {
                         text.erase(text.length()-1);
                         }
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
-            else if (is_suffix(text,/*en*/LOWER_E, UPPER_E, LOWER_N, UPPER_N) )
+            else if (this->is_suffix(text,/*en*/LOWER_E, UPPER_E, LOWER_N, UPPER_N) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-2 &&
                     !string_util::is_one_of(text[text.length()-3], DUTCH_VOWELS) &&
@@ -131,30 +131,30 @@ namespace stemming
                         {
                         text.erase(text.length()-1);
                         }
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     }
                 return;
                 }
             else if (text.length() >= 3 &&
-                is_suffix(text,/*se*/LOWER_S, UPPER_S, LOWER_E, UPPER_E) &&
+                this->is_suffix(text,/*se*/LOWER_S, UPPER_S, LOWER_E, UPPER_E) &&
                 !string_util::is_one_of(text[text.length()-3], DUTCH_S_ENDING))
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-2)
                     {
                     text.erase(text.length()-2);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
             ///Define a valid s-ending as a non-vowel other than j
             else if (text.length() >= 2 &&
-                is_suffix(text, LOWER_S, UPPER_S) &&
+                this->is_suffix(text, LOWER_S, UPPER_S) &&
                 !string_util::is_one_of(text[text.length()-2], DUTCH_S_ENDING))
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-1)
                     {
                     text.erase(text.length()-1);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     return;
                     }
                 }
@@ -165,7 +165,7 @@ namespace stemming
         //---------------------------------------------
         void step_2(string_typeT& text)
             {
-            if (is_suffix(text, LOWER_E, UPPER_E) )
+            if (this->is_suffix(text, LOWER_E, UPPER_E) )
                 {
                 if (text.length() >= 2 &&
                     stem<string_typeT>::get_r1() <= text.length()-1 &&
@@ -187,7 +187,7 @@ namespace stemming
                             {
                             text.erase(text.length()-1);
                             }
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         m_step_2_succeeded = true;
                         }
                     }
@@ -198,16 +198,16 @@ namespace stemming
         //---------------------------------------------
         void step_3a(string_typeT& text)
             {
-            if (is_suffix(text,/*heid*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_D, UPPER_D) )
+            if (this->is_suffix(text,/*heid*/LOWER_H, UPPER_H, LOWER_E, UPPER_E, LOWER_I, UPPER_I, LOWER_D, UPPER_D) )
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_r2() <= text.length()-4 &&
                     is_neither<wchar_t>(text[text.length()-5], LOWER_C, UPPER_C) )
                     {
                     text.erase(text.length()-4);
-                    update_r_sections(text);
+                    this->update_r_sections(text);
                     if (stem<string_typeT>::get_r1() <= text.length()-2 &&
-                        is_suffix(text, LOWER_E, UPPER_E, LOWER_N, UPPER_N) )
+                        this->is_suffix(text, LOWER_E, UPPER_E, LOWER_N, UPPER_N) )
                         {
                         if ((!string_util::is_one_of(text[text.length()-3], DUTCH_VOWELS) ||
                             (string_util::is_one_of(text[text.length()-3], L"iyYI") &&
@@ -224,7 +224,7 @@ namespace stemming
                                 {
                                 text.erase(text.length()-1);
                                 }
-                            update_r_sections(text);
+                            this->update_r_sections(text);
                             }
                         }
                     return;
@@ -252,16 +252,16 @@ namespace stemming
         //---------------------------------------------
         void step_3b(string_typeT& text)
             {
-            if (delete_if_is_in_r2(text,/*end*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_D, UPPER_D) ||
-                delete_if_is_in_r2(text,/*ing*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_G, UPPER_G) )
+            if (this->delete_if_is_in_r2(text,/*end*/LOWER_E, UPPER_E, LOWER_N, UPPER_N, LOWER_D, UPPER_D) ||
+                this->delete_if_is_in_r2(text,/*ing*/LOWER_I, UPPER_I, LOWER_N, UPPER_N, LOWER_G, UPPER_G) )
                 {
-                update_r_sections(text);
+                this->update_r_sections(text);
                 if (text.length() > 3)
                     {
                     if (is_neither<wchar_t>(text[text.length()-3], LOWER_E , UPPER_E) &&
-                        delete_if_is_in_r2(text,/*ig*/LOWER_I, UPPER_I, LOWER_G, UPPER_G) )
+                        this->delete_if_is_in_r2(text,/*ig*/LOWER_I, UPPER_I, LOWER_G, UPPER_G) )
                         {
-                        update_r_sections(text);
+                        this->update_r_sections(text);
                         return;
                         }
                     else
@@ -270,7 +270,7 @@ namespace stemming
                             string_util::tolower_western(text[text.length()-2]) == string_util::tolower_western(text[text.length()-1]))
                             {
                             text.erase(text.length()-1);
-                            update_r_sections(text);
+                            this->update_r_sections(text);
                             return;
                             }
                         }
@@ -278,22 +278,22 @@ namespace stemming
                 return;
                 }
             else if (!(text.length() >= 3 && is_either<wchar_t>(text[text.length()-3], LOWER_E, UPPER_E) ) &&
-                    delete_if_is_in_r2(text,/*ig*/LOWER_I, UPPER_I, LOWER_G, UPPER_G) )
+                    this->delete_if_is_in_r2(text,/*ig*/LOWER_I, UPPER_I, LOWER_G, UPPER_G) )
                 {
-                update_r_sections(text);
+                this->update_r_sections(text);
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*baar*/LOWER_B, UPPER_B, LOWER_A, UPPER_A, LOWER_A, UPPER_A, LOWER_R, UPPER_R) )
+            else if (this->delete_if_is_in_r2(text,/*baar*/LOWER_B, UPPER_B, LOWER_A, UPPER_A, LOWER_A, UPPER_A, LOWER_R, UPPER_R) )
                 {
                 return;
                 }
-            else if (delete_if_is_in_r2(text,/*lijk*/LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_J, UPPER_J, LOWER_K, UPPER_K) )
+            else if (this->delete_if_is_in_r2(text,/*lijk*/LOWER_L, UPPER_L, LOWER_I, UPPER_I, LOWER_J, UPPER_J, LOWER_K, UPPER_K) )
                 {
                 step_2(text);
                 return;
                 }
             else if (m_step_2_succeeded &&
-                delete_if_is_in_r2(text,/*bar*/LOWER_B, UPPER_B, LOWER_A, UPPER_A, LOWER_R, UPPER_R) )
+                this->delete_if_is_in_r2(text,/*bar*/LOWER_B, UPPER_B, LOWER_A, UPPER_A, LOWER_R, UPPER_R) )
                 {
                 return;
                 }
@@ -315,7 +315,7 @@ namespace stemming
                 string_util::tolower_western(text[text.length()-2]) == string_util::tolower_western(text[text.length()-3]) )
                 {
                 text.erase(text.end()-2, text.end()-1);
-                update_r_sections(text);
+                this->update_r_sections(text);
                 }
             }
         //internal data specific to Dutch stemmer
