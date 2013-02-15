@@ -105,6 +105,15 @@ public:
     bool invoke(Parser& parser, shared_ptr<Node> node);
 };
 
+class Bibitem: public Command
+{
+public:
+    explicit Bibitem(const string& name): Command(name), m_num(0) {}
+    bool invoke(Parser& parser, shared_ptr<Node> node);
+private:
+    size_t m_num;
+};
+
 class Input: public Command
 {
 public:

@@ -119,7 +119,7 @@ bool Read::invokeWithPrefixes(Parser& parser, shared_ptr<Node> node,
     Token::ptr ltoken = tokenNode->value(Token::ptr());
 
     // Get assosiated lexer
-    InFile infile = 
+    InFile infile =
         parser.symbol("read" + boost::lexical_cast<string>(stream), InFile());
 
     shared_ptr<Lexer> lexer = infile.lexer;
@@ -190,7 +190,7 @@ bool Read::invokeWithPrefixes(Parser& parser, shared_ptr<Node> node,
         }
         if(infile.lexer)
             parser.setSymbol("read" + boost::lexical_cast<string>(stream),
-                            InFile(), true); 
+                            InFile(), true);
     }
 
     // sync if reading from the terminal
@@ -383,7 +383,7 @@ bool Write::invokeWithPrefixes(Parser& parser,
     parser.setMode(prevMode);
 
     node->appendChild("text", text);
-    
+
     string str;
     Token::list_ptr tokens =
         text->child("balanced_text")->value(Token::list_ptr());
@@ -405,7 +405,7 @@ bool Write::invokeWithPrefixes(Parser& parser,
         */
     }
 
-    OutFile outfile = 
+    OutFile outfile =
         parser.symbol("write" + boost::lexical_cast<string>(stream), OutFile());
 
     if(outfile.ostream) {
@@ -425,7 +425,7 @@ bool Message::invoke(Parser& parser, Node::ptr node)
 
     Node::ptr text = parser.parseGeneralText(true);
     node->appendChild("text", text);
-    
+
     string str;
     Token::list_ptr tokens =
         text->child("balanced_text")->value(Token::list_ptr());
@@ -449,6 +449,35 @@ bool Message::invoke(Parser& parser, Node::ptr node)
 
     parser.logger()->log(Logger::MESSAGE, str, parser, parser.lastToken());
                 //text->child("right_brace")->value(Token::ptr()));
+    return true;
+}
+
+bool Bibitem::invoke(Parser& parser, Node::ptr node)
+{
+    // TODO: implement
+    using boost::lexical_cast;
+    // TODO: expand text later
+
+    Node::ptr text = parser.parseGeneralText(true);
+    node->appendChild("text", text);
+
+    string str;
+    Token::list_ptr tokens =
+        text->child("balanced_text")->value(Token::list_ptr());
+
+    ++m_num;
+    if(tokens) {
+        // lexical_cast<string>(m_num);
+        str = Token::texReprList(*tokens, &parser);
+        size_t pos = 0;
+        while((pos = str.find("\\bibitem ", pos)) != string::npos) {
+            ++m_num;
+            ++pos;
+        }
+    }
+
+    // TODO: implement
+    parser.logger()->log(Logger::MESSAGE,  string("bibitems count: ") + lexical_cast<string>(m_num), parser, parser.lastToken());
     return true;
 }
 

@@ -78,7 +78,7 @@ void initSymbols(Parser& parser)
     __TEXPP_SET_COMMAND("ifvbox", Ifvbox);
 
     __TEXPP_SET_COMMAND("ifcase", Ifcase);
-    
+
     __TEXPP_SET_COMMAND("ifeof", Ifeof);
 
     __TEXPP_SET_COMMAND("or", ConditionalOr);
@@ -115,7 +115,9 @@ void initSymbols(Parser& parser)
     __TEXPP_SET_COMMAND("write", Write);
 
     __TEXPP_SET_COMMAND("message", Message);
-    
+
+    __TEXPP_SET_COMMAND("bibitem", Bibitem);
+
     // various commands
     __TEXPP_SET_COMMAND("end", End);
     __TEXPP_SET_COMMAND("par", Par);
