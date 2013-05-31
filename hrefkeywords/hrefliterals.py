@@ -10,7 +10,7 @@ import re
 import os
 
 from _chrefliterals import \
-    Stemmer, WordsDict, TextTag, TextTagList, \
+    WordsDict, TextTag, TextTagList, \
     absolutePath, isLocalFile, normLiteral, extractTextInfo, \
     getDocumentEncoding, findLiterals, replaceLiterals
 
@@ -28,7 +28,7 @@ knownNotLiterals = dict.fromkeys((
     'de', 'De' # for de in the names of Universities
 ))
 
-def loadLiteralsFromConcepts4(conceptsfile, words, stemmer):
+def loadLiteralsFromConcepts4(conceptsfile, words):
     """ Loads concepts from the files
         and arranges them in a dictionary """
     literals = {}
@@ -40,7 +40,7 @@ def loadLiteralsFromConcepts4(conceptsfile, words, stemmer):
                     .replace('\\)', ')')
 
         literals.setdefault(
-                normLiteral(line1, words, stemmer), []) \
+                normLiteral(line1, words, {}, False), []) \
             .append(line1)
 
     return literals
@@ -108,14 +108,13 @@ def main():
     if not os.path.isdir(opt.output):
         optparser.error('\'%s\' is not a directory')
 
-    # Load words and create stemmer
-    stemmer = Stemmer()
+    # Load words 
     words = WordsDict('/usr/share/dict/words', ABBR_MAX)
     words.insert('I')
     words.insert('a')
 
     # Load concepts
-    literals = loadLiteralsFromConcepts4(conceptsfile, words, stemmer)
+    literals = loadLiteralsFromConcepts4(conceptsfile, words)
     conceptsfile.close()
 
     import time
