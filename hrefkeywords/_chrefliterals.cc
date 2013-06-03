@@ -214,7 +214,7 @@ string normLiteral(string literal,
     std::wstring nWLiteral;
     size_t wordStart = string::npos;
     size_t lastDot = string::npos;
-    string lowercaseLiteral(""), unicodeNormLiteral;;
+    string lowercaseLiteral(""), unicodeNormLiteral;
     setlocale(LC_ALL, "en_US.UTF-8");
     /* Decompose unicode chars to the basic ones */
     UErrorCode ecode = U_ZERO_ERROR;
