@@ -199,6 +199,13 @@ std::wstring stem_wstring(std::wstring input, bool multilang=false)
     return input_backup;
 }
 
+
+/**
+ * preWhiteList - python dictionary of literals not supposed to be transforms if
+ *                origin match with smthn from this dict
+ * postWhiteList - python dictionary of literals not supposed to be transform if
+ *                 transformation match with smthn from this dict
+ */
 string normLiteral(string literal,
         const WordsDict* wordsDict, const dict& preWhiteList,
         const dict& postWhiteList, bool multilang)
@@ -329,6 +336,7 @@ string normLiteral(string literal,
             }
         }
     }
+
     if(postWhiteList.has_key(wStrToStr(nWLiteral, true))) return literal;
 
     return wStrToStr(nWLiteral);

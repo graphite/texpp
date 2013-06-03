@@ -10,7 +10,7 @@ import re
 import os
 
 from _chrefliterals import \
-    Stemmer, WordsDict, TextTag, TextTagList, \
+    WordsDict, TextTag, TextTagList, \
     absolutePath, isLocalFile, normLiteral, extractTextInfo, \
     getDocumentEncoding, findLiterals, replaceLiterals
 
