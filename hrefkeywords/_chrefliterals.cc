@@ -199,15 +199,22 @@ std::wstring stem_wstring(std::wstring input, bool multilang=false)
     return input_backup;
 }
 
+
+/**
+ * preWhiteList - python dictionary of literals not supposed to be transforms if
+ *                origin match with smthn from this dict
+ * postWhiteList - python dictionary of literals not supposed to be transform if
+ *                 transformation match with smthn from this dict
+ */
 string normLiteral(string literal,
-        const WordsDict* wordsDict, const dict& whiteList,
-        bool multilang)
+        const WordsDict* wordsDict, const dict& preWhiteList,
+        const dict& postWhiteList, bool multilang)
 {
     stemming::english_stem<> StemEnglish;
     std::wstring nWLiteral;
     size_t wordStart = string::npos;
     size_t lastDot = string::npos;
-    string lowercaseLiteral(""), unicodeNormLiteral;;
+    string lowercaseLiteral(""), unicodeNormLiteral;
     setlocale(LC_ALL, "en_US.UTF-8");
     /* Decompose unicode chars to the basic ones */
     UErrorCode ecode = U_ZERO_ERROR;
@@ -226,7 +233,7 @@ string normLiteral(string literal,
     std::wstring wLiteral = strToWStr(unicodeNormLiteral);
     size_t s = wLiteral.length();
     /* convert to lowercase and check the whitelist */
-    if(whiteList.has_key(wStrToStr(wLiteral, true))) return literal;
+    if(preWhiteList.has_key(wStrToStr(wLiteral, true))) return literal;
 
     /* TODO: handle 's */
     for(size_t n=0; ; ++n) {
@@ -329,6 +336,8 @@ string normLiteral(string literal,
             }
         }
     }
+
+    if(postWhiteList.has_key(wStrToStr(nWLiteral, true))) return literal;
 
     return wStrToStr(nWLiteral);
 }
@@ -537,8 +546,8 @@ string getDocumentEncoding(const Node::ptr node)
 
 TextTagList findLiterals(const TextTagList& tags,
         const dict& literals, const dict& notLiterals,
-        const WordsDict* wordsDict, const dict& whiteList,
-        size_t maxChars = 0, bool multilang=false)
+        const WordsDict* wordsDict, const dict& preWhiteList,
+        const dict& postWhiteList, size_t maxChars = 0, bool multilang=false)
 {
     TextTagList result;
 
@@ -607,7 +616,7 @@ TextTagList findLiterals(const TextTagList& tags,
             }
 
             // Norm literal
-            string literal = normLiteral(text, wordsDict, whiteList, multilang);
+            string literal = normLiteral(text, wordsDict, preWhiteList, postWhiteList, multilang);
             if(literal.size() > maxChars) {
                 continue; // XXX: can normLiteral size gets smaller ?
             }
