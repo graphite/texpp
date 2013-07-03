@@ -609,7 +609,7 @@ TextTagList findLiterals(const TextTagList& tags,
             // Norm literal
             string literal = normLiteral(text, wordsDict, whiteList, multilang);
             if(literal.size() > maxChars) {
-                continue; // XXX: can normLiteral size gets smaller ?
+                break; // XXX: can normLiteral size gets smaller ?
             }
 
             // Lookup in dictionary
