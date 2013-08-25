@@ -151,10 +151,8 @@ class Section(texpy.Command):
 
 class Acknowledgments(texpy.Command):
     def invoke(self, parser, node):
-        node.setValue('section')
-        ack = texpy.Node('args')
-        ack.setValue('acknowledgments')
-        node.appendChild('title', ack)
+        node.setType('section')
+        node.setValue('acknowledgments')
         return True
 
 class InputCommand(texpy.Command):
