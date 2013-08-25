@@ -477,8 +477,7 @@ void _extractTextInfo(dict& result, const Node::ptr node,
         } else if(child->type() == "text_character" ||
                   child->type() == "text_space") {
             type = TextTag::TT_CHARACTER;
-        } else if(child->type() == "command" &&
-                  child->valueString() == "section") {
+        } else if(child->type() == "section") {
             type = TextTag::TT_SECTION;
         }
         else {
