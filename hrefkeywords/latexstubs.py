@@ -51,18 +51,21 @@ def parseGeneralArg(parser, expand=False):
     node = texpy.Node('args')
     node.appendChild('optional_spaces', parser.parseOptionalSpaces())
 
-    value = ''
+    value = []
     if parser.peekToken() and parser.peekToken().isCharacter('{'):
         textNode = parser.parseGeneralText(expand)
         node.appendChild('group', textNode)
         for t in textNode.child('balanced_text').tokens():
-            value += t.value
+            value.append(t.value)
     else:
         tNode = parser.parseToken()
         node.appendChild('token', tNode)
-        value = '' # XXX
+        while parser.peekToken():
+            value.append(parser.nextToken().value)
+            if parser.lastToken().isCharacter('}'):
+                break
 
-    node.setValue(value)
+    node.setValue(''.join(value))
     return node
 
 class Usepackage(texpy.Command):
@@ -137,6 +140,23 @@ class DefCommand(texpy.Command):
     def checkPrefixes(self, parser):
         return True
 
+class Section(texpy.Command):
+    def invoke(self, parser, node):
+        if parser.peekToken() and parser.peekToken().isCharacter('*'):
+            parser.nextToken(node.tokens())
+        node.setType('section')
+        title = parseGeneralArg(parser)
+        node.setValue(title.value())
+        return True
+
+class Acknowledgments(texpy.Command):
+    def invoke(self, parser, node):
+        node.setValue('section')
+        ack = texpy.Node('args')
+        ack.setValue('acknowledgments')
+        node.appendChild('title', ack)
+        return True
+
 class InputCommand(texpy.Command):
     def invoke(self, parser, node):
         fnameNode = parser.parseFileName()
@@ -193,6 +213,9 @@ def initLaTeXstyle(parser):
     createCommand(parser, 'documentstyle', Documentclass)
 
     createCommand(parser, 'input', InputCommand)
+    createCommand(parser, 'section', Section)
+    createCommand(parser, 'acknowledgments', Acknowledgments)
+    createCommand(parser, 'acknowledgements', Acknowledgments)
 
     mathToken = texpy.Token(texpy.Token.Type.CHARACTER,
                             texpy.Token.CatCode.MATHSHIFT, '$')

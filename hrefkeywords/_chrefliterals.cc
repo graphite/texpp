@@ -373,7 +373,7 @@ struct TextTag
 {
     enum Type {
         TT_OTHER = 0,
-        TT_WORD, TT_CHARACTER, TT_LITERAL
+        TT_WORD, TT_CHARACTER, TT_LITERAL, TT_SECTION
     };
 
     Type   type;
@@ -477,7 +477,11 @@ void _extractTextInfo(dict& result, const Node::ptr node,
         } else if(child->type() == "text_character" ||
                   child->type() == "text_space") {
             type = TextTag::TT_CHARACTER;
-        } else {
+        } else if(child->type() == "command" &&
+                  child->valueString() == "section") {
+            type = TextTag::TT_SECTION;
+        }
+        else {
             type = TextTag::TT_OTHER;
         }
 
@@ -676,6 +680,7 @@ void export_TextTag()
         .value("WORD", TextTag::TT_WORD)
         .value("CHARACTER", TextTag::TT_CHARACTER)
         .value("LITERAL", TextTag::TT_LITERAL)
+        .value("SECTION", TextTag::TT_SECTION)
     ;
 }
 
