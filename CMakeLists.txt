@@ -6,7 +6,7 @@ include(CTest)
 
 # Find boost libraries
 set(Boost_USE_MULTITHREADED ON)
-find_package(Boost 1.34.0 COMPONENTS filesystem regex python REQUIRED)
+find_package(Boost 1.34.0 COMPONENTS system filesystem regex python REQUIRED)
 
 # Find python interpreter
 find_package(PythonInterp)
@@ -14,12 +14,15 @@ if(NOT PYTHONINTERP_FOUND)
     message("python interpreter NOT found - tests/hrefkeywords will NOT be built.")
 endif(NOT PYTHONINTERP_FOUND)
 
-# Find boost.python libraries
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
-find_package(BoostPython)
-if(NOT BOOST_PYTHON_FOUND)
-    message("boost.python NOT found - texpy and hrefkeywords will NOT be built.")
-endif(NOT BOOST_PYTHON_FOUND)
+# Find python libraries
+find_package(PythonLibs)
+if(NOT PYTHONLIBS_FOUND)
+    message("python libraries NOT found - texpy and hrefkeywords will NOT be built.")
+endif(NOT PYTHONLIBS_FOUND)
+
+# Find Unicode libraries
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
+find_package(ICU 5.0 REQUIRED)
 
 # Find tex executable (required for tests/tex and tests/hrefkeywords)
 find_program(TEX_EXECUTABLE "tex")
@@ -37,10 +40,10 @@ include_directories(${CMAKE_SOURCE_DIR})
 # Subdirectories
 add_subdirectory(texpp)
 
-if(BOOST_PYTHON_FOUND)
+if(Boost_PYTHON_FOUND)
     add_subdirectory(texpy)
     add_subdirectory(hrefkeywords)
-endif(BOOST_PYTHON_FOUND)
+endif(Boost_PYTHON_FOUND)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)

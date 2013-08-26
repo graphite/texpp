@@ -1,3 +1,4 @@
+include_directories(${Boost_INCLUDE_DIR})
 add_executable(texpp texpp.cc)
 target_link_libraries(texpp libtexpp)
 set(TEXPP_EXECUTABLE ${CMAKE_CURRENT_BINARY_DIR}/texpp)

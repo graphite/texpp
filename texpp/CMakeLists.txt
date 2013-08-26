@@ -1,4 +1,4 @@
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
 #add_definitions(-DBOOST_NO_EXCEPTIONS)
 
 add_definitions(-fPIC)
@@ -30,9 +30,37 @@ set(libtexpp_SOURCES
     base/base.cc
 )
 
-add_library(libtexpp SHARED ${libtexpp_SOURCES})
+set(libtexpp_HEADERS
+    common.h
+    token.h
+    logger.h
+    lexer.h
+    parser.h
+    command.h
+    kpsewhich.h
+    base/conditional.h
+    base/miscmacros.h
+    base/misc.h
+    base/show.h
+    base/func.h
+    base/files.h
+    base/variable.h
+    base/integer.h
+    base/dimen.h
+    base/glue.h
+    base/toks.h
+    base/font.h
+    base/char.h
+    base/parshape.h
+    base/hyphenation.h
+    base/box.h
+    base/base.h
+)
+
+add_library(libtexpp STATIC ${libtexpp_SOURCES} ${libtexpp_HEADERS})
+target_link_libraries(libtexpp ${Boost_LIBRARIES})
 set_target_properties(libtexpp PROPERTIES OUTPUT_NAME texpp)
 
 # Temporary hack
-install(TARGETS libtexpp LIBRARY DESTINATION bin)
+#install(TARGETS libtexpp LIBRARY DESTINATION bin)
 

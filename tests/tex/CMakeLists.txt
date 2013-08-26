@@ -1,3 +1,5 @@
+include_directories(${Boost_INCLUDE_DIR})
+
 add_executable(test_tex test_tex.cc)
 
 add_executable(test_source test_source.cc)
