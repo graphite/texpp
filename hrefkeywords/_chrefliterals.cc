@@ -506,6 +506,11 @@ void _extractTextInfo(dict& result, const Node::ptr node,
             }
         } else if(child->type().compare(0, 12, "environment_") == 0 &&
                     !boost::regex_match(child->type(), exclude_regex)) {
+            if (child->type().compare(12, 20, "abstract") == 0) {
+                std::pair<size_t, size_t> pos = child->sourcePos();
+                tags->push_back(TextTag(TextTag::TT_SECTION, pos.first,
+                                pos.second, "abstract"));
+            }
             _extractTextInfo(result, child, exclude_regex, workdir);
             tags = 0; // XXX: it it really required ?
         }
