@@ -22,7 +22,7 @@ endif(NOT PYTHONLIBS_FOUND)
 
 # Find Unicode libraries
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
-find_package(ICU 5.0 REQUIRED)
+find_package(ICU 4.4 REQUIRED)
 
 # Find tex executable (required for tests/tex and tests/hrefkeywords)
 find_program(TEX_EXECUTABLE "tex")
