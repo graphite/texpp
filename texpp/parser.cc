@@ -263,7 +263,7 @@ void Parser::init()
                         shared_ptr<Logger>(new NullLogger);
 
     base::initSymbols(*this);
-    
+
     string banner = BANNER;
     if(!lexer()->interactive()) {
         char t[256];
@@ -476,7 +476,7 @@ Node::ptr Parser::rawExpandToken(Token::ptr token)
     child->setValue(token);
     node->appendChild("control_sequence", child);
     bool expanded = true;
-    
+
     pushBack(NULL);
 
     if(m_conditionals.empty() || m_conditionals.back().active)
@@ -769,7 +769,7 @@ Token::ptr Parser::nextToken(vector< Token::ptr >* tokens, bool expand)
             }
 
             if(tokens) tokens->push_back(token);
-            
+
             if(token->isLastInLine()) {
                 break;
             }
@@ -817,7 +817,7 @@ Token::ptr Parser::peekToken(bool expand)
             m_logger->log(Logger::ERROR,
                 "Text line contains an invalid character", *this, token);
         }
-        
+
         tokenSource.push_back(token);
     }
 
@@ -845,7 +845,7 @@ Token::ptr Parser::peekToken(bool expand)
             }
 
             tokenSource.push_back(token);
-            
+
             if(token->isLastInLine()) {
                 break;
             }
@@ -1014,7 +1014,7 @@ Node::ptr Parser::parseFalseConditional(size_t level, bool sElse, bool sOr)
     while((token = peekToken(false)) && m_conditionals.size() >= level) {
         Command::ptr cmd = symbol(token, Command::ptr());
         nextToken(&node->tokens(), false);
-        
+
         if(dynamic_pointer_cast<ConditionalBegin>(cmd)) {
             ConditionalInfo cinfo;
             cinfo.parsed = false;
@@ -1322,14 +1322,14 @@ Node::ptr Parser::parseNormalInteger()
         resetNoexpand();
         return node;
     }
-    
+
     int result = 0;
     int digits = 0;
 
     if(peekToken()->isCharacter('\"', Token::CC_OTHER)) {
         nextToken(&node->tokens());
 
-        while(peekToken() && ( 
+        while(peekToken() && (
                 (peekToken()->isCharacterCat(Token::CC_OTHER) &&
                         std::isxdigit(peekToken()->value()[0]) &&
                         !std::islower(peekToken()->value()[0])) ||
@@ -1354,7 +1354,7 @@ Node::ptr Parser::parseNormalInteger()
 
     } else if(peekToken()->isCharacter('\'', Token::CC_OTHER)) {
         nextToken(&node->tokens());
-        while(peekToken() && 
+        while(peekToken() &&
                 peekToken()->isCharacterCat(Token::CC_OTHER) &&
                         std::isdigit(peekToken()->value()[0]) &&
                 peekToken()->value()[0] < '8') {
@@ -1372,7 +1372,7 @@ Node::ptr Parser::parseNormalInteger()
         }
 
     } else {
-        while(peekToken() && 
+        while(peekToken() &&
                 peekToken()->isCharacterCat(Token::CC_OTHER) &&
                         std::isdigit(peekToken()->value()[0])) {
             if(result != TEXPP_INT_INV) {
@@ -1736,7 +1736,7 @@ Node::ptr Parser::parseDimenFactor()
         int frac = 0;
         int digits = 0;
 
-        while(peekToken() && 
+        while(peekToken() &&
                 peekToken()->isCharacterCat(Token::CC_OTHER) &&
                         std::isdigit(peekToken()->value()[0])) {
             if(result != TEXPP_INT_INV) {
@@ -1758,9 +1758,9 @@ Node::ptr Parser::parseDimenFactor()
         if(peekToken() && (peekToken()->isCharacter('.', Token::CC_OTHER) ||
                            peekToken()->isCharacter(',', Token::CC_OTHER))) {
             nextToken(&node->tokens()); ++digits;
-            
+
             string fracDigits;
-            while(peekToken() && 
+            while(peekToken() &&
                     peekToken()->isCharacterCat(Token::CC_OTHER) &&
                             std::isdigit(peekToken()->value()[0])) {
                 if(fracDigits.size() < 17)
@@ -1780,7 +1780,7 @@ Node::ptr Parser::parseDimenFactor()
                 "Missing number, treated as zero",
                                             *this, lastToken());
         }
-        
+
         node->setValue(std::make_pair(int(result), frac));
         resetNoexpand();
         return node;
@@ -2150,6 +2150,7 @@ void Parser::traceCommand(Token::ptr token, bool expanding)
                 if(mode() == NULLMODE ||
                         dynamic_pointer_cast<base::Write>(c) ||
                         dynamic_pointer_cast<base::Message>(c) ||
+                        dynamic_pointer_cast<base::Bibitem>(c) ||
                         (dynamic_pointer_cast<base::Def>(c) &&
                          static_pointer_cast<base::Def>(c)->expand())) {
                     return;
@@ -2365,7 +2366,7 @@ Node::ptr Parser::parseGroup(GroupType groupType)
                             t = Token::create(Token::TOK_CHARACTER,
                                         Token::CC_MATHSHIFT, "$");
                         } else if(groupType == GROUP_DMATH) {
-                            logger()->log(Logger::ERROR, 
+                            logger()->log(Logger::ERROR,
                                    "Missing $ inserted", *this, lastToken());
                             msg = "Display math should end with $$";
                             t = Token::create(Token::TOK_CHARACTER,
@@ -2450,7 +2451,7 @@ Node::ptr Parser::parse()
     setMode(VERTICAL);
     Node::ptr document = parseGroup(GROUP_DOCUMENT);
     document->setType("document");
-    
+
     // Some skipped tokens may still exists even when
     // peekToken reports EOF. Lets add that tokens to the last node.
     Node::ptr node = document;

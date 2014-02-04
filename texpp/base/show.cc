@@ -84,6 +84,7 @@ bool parseThe(Parser& parser, shared_ptr<Node> node, bool show)
                 Command::ptr c = parser.prevCommand();
                 if(dynamic_pointer_cast<base::Write>(c) ||
                         dynamic_pointer_cast<base::Message>(c) ||
+                        dynamic_pointer_cast<base::Bibitem>(c) ||
                         (dynamic_pointer_cast<base::Def>(c) &&
                          static_pointer_cast<base::Def>(c)->expand())) {
                     parser.addNoexpand((*toks_copy)[n]);
